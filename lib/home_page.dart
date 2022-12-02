@@ -3,7 +3,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:pokeapi/model/game/pokedex.dart';
+import 'package:pokeapi/model/item/item-category.dart';
+import 'package:pokeapi/model/pokemon/characteristic.dart';
 import 'package:pokeapi/model/pokemon/gender.dart';
+import 'package:pokeapi/model/pokemon/nature.dart';
+import 'package:pokeapi/model/pokemon/pokeathlon-stat.dart';
+import 'package:pokeapi/model/pokemon/pokemon-color.dart';
 import 'package:pokeapi/model/pokemon/pokemon-specie.dart';
 import 'package:pokeapi/model/pokemon/pokemon.dart';
 import 'package:pokeapi/model/utils/common.dart';
@@ -30,12 +36,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future pickPokemon() async {
-    NamedAPIResource namedAPIResource;
     Random random = Random();
+    print('object');
     pokemon = await PokeAPI.getObject(random.nextInt(maxPokemonNumber + 1));
-    namedAPIResource = pokemon!.species!;
 
-    PokemonSpecie pokemonSpecie = PokemonSpecie();
+    var v = await PokeAPI.getObject<Characteristic>(1);
+    print('-------------');
+    print(v);
     //AASSSISTE ALGUMA AULA DE POKEAPI NA NET
   }
 
@@ -43,114 +50,115 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.grey[100],
-        body: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-            SliverAppBar(
-              centerTitle: true,
-              title: Text(
-                'Pokemon',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold,
+        body: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                SizedBox(height: 10),
+                Text(
+                  'Quem é esse Pokemon?',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              backgroundColor: Colors.grey[100],
-              elevation: 0,
-            ),
-          ],
-          body: Padding(
-              padding: const EdgeInsets.all(20),
-              child: FutureBuilder(
-                future: pickPokemon(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting ||
-                      snapshot.connectionState == ConnectionState.none) {
-                    return Container(
-                      color: Colors.grey[300],
-                      child: Center(
-                          child: SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: Lottie.asset(
-                            'lib/assets/animations/pokeball-animation.json'),
-                      )),
-                    );
-                  } else if (snapshot.connectionState == ConnectionState.done) {
-                    return ListView(
-                      children: [
-                        SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
+                FutureBuilder(
+                  future: pickPokemon(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting ||
+                        snapshot.connectionState == ConnectionState.none) {
+                      return Expanded(
+                        child: Container(
+                          color: Colors.grey[300],
+                          child: Center(
+                              child: SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: Lottie.asset(
+                                'lib/assets/animations/pokeball-animation.json'),
+                          )),
+                        ),
+                      );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      return ListView(
+                        children: [
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    pokemon!.name == ''
+                                        ? '-'
+                                        : pokemon!.name!.toUpperCase(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                  height: 40,
+                                  decoration: screenDecoration,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  child: Image.network(
+                                      pokemon!.sprites!.frontDefault!,
+                                      fit: BoxFit.fitHeight),
+                                  height: 250,
+                                  decoration: screenDecoration,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: Container(
                                 child: Text(
-                                  pokemon!.name == ''
-                                      ? '-'
-                                      : pokemon!.name!.toUpperCase(),
-                                  textAlign: TextAlign.center,
+                                  '  #${pokemon!.id} - Altura: ${pokemon!.height! * 2.54} cm - Peso: ${pokemon!.weight! * 453 / 1000} kg',
                                   style: TextStyle(
                                       fontSize: 20,
-                                      fontWeight: FontWeight.w700),
+                                      fontWeight: FontWeight.bold),
                                 ),
-                                height: 40,
                                 decoration: screenDecoration,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                child: Image.network(
-                                    pokemon!.sprites!.frontDefault!,
-                                    fit: BoxFit.fitHeight),
-                                height: 250,
+                              ))
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: Container(
+                                child: Text(
+                                  pokemon!.forms.toString(),
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
                                 decoration: screenDecoration,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Container(
-                              child: Text(
-                                '  #${pokemon!.id} - Altura: ${pokemon!.height! * 2.54} cm - Peso: ${pokemon!.weight! * 453 / 1000} kg',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              decoration: screenDecoration,
-                            ))
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Container(
-                              child: Text(
-                                pokemon!.forms.toString(),
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              decoration: screenDecoration,
-                            ))
-                          ],
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Center(
-                      child: Text('ERRO'),
-                    );
-                  }
-                },
-              )),
-        ),
+                              ))
+                            ],
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Center(
+                        child: Text('ERRO'),
+                      );
+                    }
+                  },
+                ),
+              ],
+            )),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
           child: Padding(
