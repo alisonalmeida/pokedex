@@ -2,7 +2,9 @@
 
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:pokeapi/model/game/pokedex.dart';
 import 'package:pokeapi/model/item/item-category.dart';
 import 'package:pokeapi/model/pokemon/characteristic.dart';
@@ -14,6 +16,8 @@ import 'package:pokeapi/model/pokemon/pokemon-specie.dart';
 import 'package:pokeapi/model/pokemon/pokemon.dart';
 import 'package:pokeapi/model/utils/common.dart';
 import 'package:pokeapi/pokeapi.dart';
+import 'package:pokedex/empty_pokedex_screen.dart';
+import 'package:pokedex/pokedex_screen.dart';
 import 'package:pokedex/utils/colors.dart';
 import 'package:lottie/lottie.dart';
 
@@ -37,25 +41,31 @@ class _HomePageState extends State<HomePage> {
 
   Future pickPokemon() async {
     Random random = Random();
-    print('object');
-    pokemon = await PokeAPI.getObject(random.nextInt(maxPokemonNumber + 1));
 
-    var v = await PokeAPI.getObject<Characteristic>(1);
-    print('-------------');
-    print(v);
-    //AASSSISTE ALGUMA AULA DE POKEAPI NA NET
+    pokemon = await PokeAPI.getObject(random.nextInt(maxPokemonNumber + 1));
+    final player = AudioPlayer();
+    player.play(DeviceFileSource('lib/assets/audio/audio-editor-output.mp3'));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.grey[100],
-        body: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                SizedBox(height: 10),
-                Text(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              backgroundColor: Colors.white,
+              pinned: true,
+              elevation: 0,
+              centerTitle: true,
+              expandedHeight: 500,
+              title: Container(
+                padding: EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Text(
                   'Quem é esse Pokemon?',
                   style: TextStyle(
                     color: Colors.black,
@@ -63,110 +73,50 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                FutureBuilder(
-                  future: pickPokemon(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting ||
-                        snapshot.connectionState == ConnectionState.none) {
-                      return Expanded(
-                        child: Container(
-                          color: Colors.grey[300],
-                          child: Center(
-                              child: SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Lottie.asset(
-                                'lib/assets/animations/pokeball-animation.json'),
-                          )),
-                        ),
-                      );
-                    } else if (snapshot.connectionState ==
-                        ConnectionState.done) {
-                      return ListView(
-                        children: [
-                          SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    pokemon!.name == ''
-                                        ? '-'
-                                        : pokemon!.name!.toUpperCase(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  height: 40,
-                                  decoration: screenDecoration,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  child: Image.network(
-                                      pokemon!.sprites!.frontDefault!,
-                                      fit: BoxFit.fitHeight),
-                                  height: 250,
-                                  decoration: screenDecoration,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Expanded(
-                                  child: Container(
-                                child: Text(
-                                  '  #${pokemon!.id} - Altura: ${pokemon!.height! * 2.54} cm - Peso: ${pokemon!.weight! * 453 / 1000} kg',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                decoration: screenDecoration,
-                              ))
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Expanded(
-                                  child: Container(
-                                child: Text(
-                                  pokemon!.forms.toString(),
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                decoration: screenDecoration,
-                              ))
-                            ],
-                          ),
-                        ],
-                      );
-                    } else {
-                      return Center(
-                        child: Text('ERRO'),
-                      );
-                    }
-                  },
+              ),
+              flexibleSpace: FlexibleSpaceBar(
+                  background: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
                 ),
-              ],
+                child: Image(
+                  image: AssetImage(
+                      'lib/assets/img/ash-ketchum-pokemon-champion-740x308.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              )),
+            ),
+            SliverList(
+                delegate: SliverChildBuilderDelegate(
+              childCount: 1,
+              (context, index) => FutureBuilder(
+                future: pickPokemon(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting ||
+                      snapshot.connectionState == ConnectionState.none) {
+                    return EmptyPokedexScreen();
+                  } else if (snapshot.connectionState == ConnectionState.done) {
+                    return PokedexScreen(
+                      pokemon: pokemon,
+                    );
+                  } else {
+                    return Center(
+                      child: Text('ERRO'),
+                    );
+                  }
+                },
+              ),
             )),
+          ],
+        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
           child: Padding(
             padding: const EdgeInsets.all(2.0),
             child: Image.asset('lib/assets/img/pokebola.png'),
           ),
-          onPressed: () async {
-            await pickPokemon();
+          onPressed: () {
             setState(() {});
           },
         ),
