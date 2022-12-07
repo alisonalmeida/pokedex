@@ -12,3 +12,11 @@ Decoration screenDecoration = BoxDecoration(
           Color.fromARGB(255, 218, 238, 255)
         ]),
     border: Border.all());
+
+Decoration buttonDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(10),
+    gradient: LinearGradient(
+        begin: AlignmentDirectional.topCenter,
+        end: AlignmentDirectional.bottomCenter,
+        colors: [Colors.white, Color.fromARGB(255, 255, 235, 235), redColor]),
+    border: Border.all());

@@ -1,13 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:pokeapi/model/pokemon/pokemon-color.dart';
+
 import 'package:pokeapi/model/pokemon/pokemon.dart';
+import 'package:pokeapi/pokeapi.dart';
 import 'package:pokedex/utils/colors.dart';
+import 'package:pokedex/utils/consts.dart';
+import 'package:pokedex/utils/custom_choice_button.dart';
 
 class PokedexScreen extends StatelessWidget {
-  PokedexScreen({super.key, required this.pokemon});
-  Pokemon? pokemon;
+  PokedexScreen(
+      {super.key,
+      required this.rightPokemon,
+      required this.otherPokemon1,
+      required this.otherPokemon2});
+  Pokemon? rightPokemon;
+  Pokemon? otherPokemon1;
+  Pokemon? otherPokemon2;
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> listNames = [];
+    listNames.addAll([
+      CustomChoiceButton(
+          name: rightPokemon!.name!,
+          callback: () {
+            rightPokemonDialog(context, rightPokemon!);
+          }),
+      CustomChoiceButton(
+          name: otherPokemon1!.name!,
+          callback: () {
+            wrongPokemonDialog(context, rightPokemon!);
+          }),
+      CustomChoiceButton(
+          name: otherPokemon2!.name!,
+          callback: () {
+            wrongPokemonDialog(context, rightPokemon!);
+          })
+    ]);
+
+    listNames.shuffle();
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -17,64 +50,20 @@ class PokedexScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: Container(
-                  height: 40,
-                  decoration: screenDecoration,
-                  child: Text(
-                    pokemon!.name == '' ? '-' : pokemon!.name!.toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
                   height: 250,
                   decoration: screenDecoration,
-                  child: Opacity(
-                    opacity: 1,
-                    child: Image.network(pokemon!.sprites!.frontDefault!,
-                        filterQuality: FilterQuality.high,
-                        color: Colors.black,
-                        fit: BoxFit.fitHeight),
-                  ),
+                  child: Image.network(rightPokemon!.sprites!.frontDefault!,
+                      color: Colors.black, fit: BoxFit.fitHeight),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                  child: Container(
-                decoration: screenDecoration,
-                child: Text(
-                  '  #${pokemon!.id} - Altura: ${pokemon!.height! * 2.54} cm - Peso: ${pokemon!.weight! * 453 / 1000} kg',
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ))
-            ],
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: listNames,
           ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                  child: Container(
-                decoration: screenDecoration,
-                child: Text(
-                  pokemon!.forms.toString(),
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ))
-            ],
-          ),
+          const SizedBox(height: 100),
         ],
       ),
     );

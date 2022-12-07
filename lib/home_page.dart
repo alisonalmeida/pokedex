@@ -1,25 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'dart:math';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:pokeapi/model/game/pokedex.dart';
-import 'package:pokeapi/model/item/item-category.dart';
-import 'package:pokeapi/model/pokemon/characteristic.dart';
-import 'package:pokeapi/model/pokemon/gender.dart';
-import 'package:pokeapi/model/pokemon/nature.dart';
-import 'package:pokeapi/model/pokemon/pokeathlon-stat.dart';
-import 'package:pokeapi/model/pokemon/pokemon-color.dart';
-import 'package:pokeapi/model/pokemon/pokemon-specie.dart';
 import 'package:pokeapi/model/pokemon/pokemon.dart';
-import 'package:pokeapi/model/utils/common.dart';
 import 'package:pokeapi/pokeapi.dart';
 import 'package:pokedex/empty_pokedex_screen.dart';
 import 'package:pokedex/pokedex_screen.dart';
 import 'package:pokedex/utils/colors.dart';
-import 'package:lottie/lottie.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,7 +17,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Pokemon? pokemon;
+  late Pokemon? rightPokemon;
+  late Pokemon? otherPokemon1;
+  late Pokemon? otherPokemon2;
   bool isInitialized = false;
 
   int maxPokemonNumber = 151;
@@ -41,10 +31,16 @@ class _HomePageState extends State<HomePage> {
 
   Future pickPokemon() async {
     Random random = Random();
+    int numberRightPokemon = random.nextInt(maxPokemonNumber + 1);
 
-    pokemon = await PokeAPI.getObject(random.nextInt(maxPokemonNumber + 1));
-    final player = AudioPlayer();
-    player.play(DeviceFileSource('lib/assets/audio/audio-editor-output.mp3'));
+    rightPokemon = await PokeAPI.getObject(numberRightPokemon);
+    otherPokemon1 =
+        await PokeAPI.getObject(random.nextInt(maxPokemonNumber + 1));
+    otherPokemon2 =
+        await PokeAPI.getObject(random.nextInt(maxPokemonNumber + 1));
+
+    AudioPlayer player = AudioPlayer();
+    await player.play(DeviceFileSource('lib/assets/audio/audio-editor-output.mp3'), mode: PlayerMode.mediaPlayer);
   }
 
   @override
@@ -94,11 +90,14 @@ class _HomePageState extends State<HomePage> {
                 future: pickPokemon(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting ||
-                      snapshot.connectionState == ConnectionState.none) {
+                      snapshot.connectionState == ConnectionState.none ||
+                      snapshot.connectionState == ConnectionState.active) {
                     return EmptyPokedexScreen();
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     return PokedexScreen(
-                      pokemon: pokemon,
+                      rightPokemon: rightPokemon,
+                      otherPokemon1: otherPokemon1,
+                      otherPokemon2: otherPokemon2,
                     );
                   } else {
                     return Center(

@@ -17,56 +17,18 @@ class EmptyPokedexScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: Container(
-                  height: 40,
+                  height: 250,
                   decoration: screenDecoration,
-                  child: const Text(
-                    '',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                  child: SizedBox(
+                    height: 50,
+                    child: Lottie.asset(
+                        'lib/assets/animations/pokeball-animation.json'),
                   ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: 250,
-                  decoration: screenDecoration,
-                  child: Lottie.asset(
-                      'lib/assets/animations/pokeball-animation.json'),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                  child: Container(
-                decoration: screenDecoration,
-                child: const Text(
-                  '',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ))
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                  child: Container(
-                decoration: screenDecoration,
-                child: const Text(
-                  '',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ))
-            ],
-          ),
         ],
       ),
     );
