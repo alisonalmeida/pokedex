@@ -2,7 +2,9 @@
 
 import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pokeapi/model/pokemon/pokemon.dart';
 import 'package:pokeapi/pokeapi.dart';
 import 'package:pokedex/empty_pokedex_screen.dart';
@@ -39,8 +41,16 @@ class _HomePageState extends State<HomePage> {
     otherPokemon2 =
         await PokeAPI.getObject(random.nextInt(maxPokemonNumber + 1));
 
+    String audioasset = 'lib/assets/audio/quem-e-esse-pokemon.ogg';
+
     AudioPlayer player = AudioPlayer();
-    await player.play(DeviceFileSource('lib/assets/audio/audio-editor-output.mp3'), mode: PlayerMode.mediaPlayer);
+    ByteData bytes = await rootBundle.load(audioasset); //load audio from assets
+    Uint8List audiobytes =
+        bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+
+
+
+    await player.play(BytesSource(audiobytes));
   }
 
   @override
