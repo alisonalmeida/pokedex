@@ -3,8 +3,8 @@ import 'package:lottie/lottie.dart';
 import 'package:pokeapi/model/pokemon/pokemon.dart';
 import 'package:pokedex/utils/colors.dart';
 
-class EmptyPokedexScreen extends StatelessWidget {
-  EmptyPokedexScreen({super.key});
+class LoadingPokedexScreen extends StatelessWidget {
+  LoadingPokedexScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
