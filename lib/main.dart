@@ -1,14 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pokedex/home_page.dart';
+import 'package:pokedex/objectbox_helper.dart';
 
-
-
+late Objectbox objectbox;
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-
+  objectbox = await Objectbox.init();
   runApp(const MyApp());
 }
 
@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomePage(),
+      builder: EasyLoading.init(),
     );
   }
 }

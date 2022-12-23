@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pokeapi/model/pokemon/pokemon.dart';
 import 'package:pokedex/utils/colors.dart';
 
 class ErrorPokedexScreen extends StatelessWidget {

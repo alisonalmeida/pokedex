@@ -36,10 +36,13 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  pokeapi: ^1.0.3
   lottie: ^2.0.0
-  audio_in_app: ^1.0.1
   audioplayers: ^1.1.1
+  dio: ^4.0.6
+  flutter_svg: ^1.1.6
+  flutter_easyloading: ^3.0.5
+  objectbox: ^1.7.0
+  objectbox_flutter_libs: ^1.7.0
   
 
 dev_dependencies:
@@ -53,6 +56,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   flutter_launcher_icons: ^0.11.0
+  build_runner: ^2.3.3
+  objectbox_generator: ^1.7.0
 
 flutter_icons:
   android: "launcher_icon"
