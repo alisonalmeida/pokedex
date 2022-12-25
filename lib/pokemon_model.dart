@@ -5,7 +5,6 @@ import 'package:objectbox/objectbox.dart';
 @Entity()
 class Pokemon {
   @Id(assignable: true)
-  
   int id;
   String name;
   String? photoPath;
@@ -13,7 +12,7 @@ class Pokemon {
   int weight;
 
   Pokemon({
-   required this.id,
+    required this.id,
     required this.name,
     this.photoPath,
     required this.height,
@@ -38,6 +37,6 @@ class Pokemon {
 
   @override
   String toString() {
-    return 'Id: $id, Name $name,';
+    return 'Id: $id, Name: $name, PhotoPath: $photoPath, Height: $height, Weight: $weight';
   }
 }

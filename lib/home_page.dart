@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   String progressString = "";
   Dio dio = Dio();
   bool isInitialized = false;
-  int maxPokemonNumber = 33;
+  int maxPokemonNumber = 151;
 
   @override
   void initState() {
