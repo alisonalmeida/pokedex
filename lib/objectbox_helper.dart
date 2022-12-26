@@ -10,7 +10,8 @@ class Objectbox {
   }
 
   static Future<Objectbox> init() async {
-    String path = '${directoryApp!.path}\\pokemon\\db';
+    String path = '${directoryApp!.path}\\db\\';
+
     final store = await openStore(directory: path);
     return Objectbox._init(store);
   }

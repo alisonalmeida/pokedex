@@ -15,9 +15,12 @@ Future initAppConfigurations() async {
 }
 
 Future getAppDirectory() async {
-  directoryApp = Platform.isAndroid
+  Directory? tempDir = Platform.isAndroid
       ? await getExternalStorageDirectory()
       : await getApplicationDocumentsDirectory();
+  directoryApp = Directory('${tempDir!.path}\\pokemon\\');
+
+  await directoryApp!.create();
 }
 
 Future downloadPokemonData() async {
