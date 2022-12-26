@@ -1,2 +1,1 @@
-import 'package:flutter/material.dart';
-
+const kPathpokemonLogo = 'lib/assets/img/pokemon-logo.png';
