@@ -10,6 +10,7 @@ import 'package:pokedex/screens/pokemon_detailed_screen.dart';
 import 'package:pokedex/utils/colors.dart';
 import 'package:pokedex/utils/consts.dart';
 import 'package:pokedex/utils/core.dart';
+import 'package:pokedex/utils/red_ball.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,6 +20,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  double pokemonWidth = 120;
+  double pokemonHeight = 120;
+
   @override
   void initState() {
     super.initState();
@@ -72,80 +76,74 @@ class _HomePageState extends State<HomePage> {
                                 border: Border.all(width: 2),
                                 boxShadow: [
                                   BoxShadow(
-                                      offset: Offset(2, 3), color: Colors.black)
+                                      offset: Offset(2, 3),
+                                      color: Colors.blue.shade700)
                                 ]),
-                          ),
-                          Positioned(
-                            top: 15,
-                            left: 100,
-                            child: Container(
-                              height: 10,
-                              width: 10,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: redColor,
-                                border: Border.all(),
-                              ),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    redBall,
+                                    SizedBox(width: 20),
+                                    redBall
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Expanded(
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Container(
+                                        height: pokemonHeight + 1000,
+                                        width: pokemonWidth + 40,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            boxShadow: [
+                                              BoxShadow(offset: Offset(2, 2))
+                                            ],
+                                            color: blueColor,
+                                            border: Border.all()),
+                                      ),
+                                      Container(
+                                        height: pokemonHeight + 20,
+                                        width: pokemonWidth + 20,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                                kpathPokeballBackground),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: pokemonHeight,
+                                        width: pokemonWidth,
+                                        child: SvgPicture.file(
+                                          File(pokemon!.photoPath!),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    redBall,
+                                    SizedBox(width: 70),
+                                    Icon(
+                                      Icons.menu,
+                                      size: 30,
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                          Positioned(
-                            top: 15,
-                            right: 100,
-                            child: Container(
-                              height: 10,
-                              width: 10,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: redColor,
-                                border: Border.all(),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 15,
-                            left: 40,
-                            child: Container(
-                              height: 15,
-                              width: 15,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: redColor,
-                                border: Border.all(),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                              bottom: 10,
-                              right: 50,
-                              child: Icon(
-                                Icons.menu,
-                                size: 30,
-                              )),
-                          Positioned(
-                              child: Container(
-                            height: 160,
-                            width: 200,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [BoxShadow(offset: Offset(2, 2))],
-                                color: blueColor,
-                                border: Border.all()),
-                          )),
-                          Container(
-                            height: 150,
-                            width: 150,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image:
-                                        AssetImage(kpathPokeballBackground))),
-                          ),
-                          SizedBox(
-                            height: 120,
-                            width: 120,
-                            child: SvgPicture.file(
-                              File(pokemon!.photoPath!),
-                            ),
-                          ),
+
                           //Pokemon Number
                           Positioned(
                             right: 20,
