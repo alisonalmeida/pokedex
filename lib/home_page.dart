@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pokedex/main.dart';
 import 'package:pokedex/pokemon_model.dart';
+import 'package:pokedex/screens/pokemon_detailed_screen.dart';
 import 'package:pokedex/utils/colors.dart';
 import 'package:pokedex/utils/consts.dart';
-import 'package:pokedex/utils/initialization.dart';
+import 'package:pokedex/utils/core.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,77 +27,276 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 120,
-        title: Padding(
-          padding: const EdgeInsets.only(top: 20, left: 20),
-          child: SizedBox(
-            height: 70,
-            child: Image.asset(kPathpokemonLogo),
-          ),
-        ),
-      ),
       body: SafeArea(
-        child: ListView(
-          children: [
-            /**
-                 * ElevatedButton(
-                  onPressed: () {
-                    for (var element in objectbox.getAllPokemons()) {
-                      print(element);
-                    }
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              leading: Container(),
+              snap: false,
+              pinned: false,
+              floating: false,
+              expandedHeight: 230,
+              backgroundColor: Colors.grey.shade100,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                title: SizedBox(
+                    height: 120,
+                    child:
+                        Image.asset(kpathPokemonLogo, fit: BoxFit.fitHeight)),
+              ),
+              elevation: 0,
+              toolbarHeight: 120,
+            ),
+            SliverGrid(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                delegate: SliverChildBuilderDelegate(
+                  childCount: 10,
+                  (context, index) {
+                    Pokemon? pokemon = objectbox.getPokemon(index + 1);
+                    return GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                DetailedPokemonPage(pokemon: pokemon),
+                          )),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.grey.shade100,
+                                border: Border.all(width: 2),
+                                boxShadow: [
+                                  BoxShadow(
+                                      offset: Offset(2, 3), color: Colors.black)
+                                ]),
+                          ),
+                          Positioned(
+                            top: 15,
+                            left: 100,
+                            child: Container(
+                              height: 10,
+                              width: 10,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: redColor,
+                                border: Border.all(),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 15,
+                            right: 100,
+                            child: Container(
+                              height: 10,
+                              width: 10,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: redColor,
+                                border: Border.all(),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 15,
+                            left: 40,
+                            child: Container(
+                              height: 15,
+                              width: 15,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: redColor,
+                                border: Border.all(),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                              bottom: 10,
+                              right: 50,
+                              child: Icon(
+                                Icons.menu,
+                                size: 30,
+                              )),
+                          Positioned(
+                              child: Container(
+                            height: 160,
+                            width: 200,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [BoxShadow(offset: Offset(2, 2))],
+                                color: blueColor,
+                                border: Border.all()),
+                          )),
+                          Container(
+                            height: 150,
+                            width: 150,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image:
+                                        AssetImage(kpathPokeballBackground))),
+                          ),
+                          SizedBox(
+                            height: 120,
+                            width: 120,
+                            child: SvgPicture.file(
+                              File(pokemon!.photoPath!),
+                            ),
+                          ),
+                          //Pokemon Number
+                          Positioned(
+                            right: 20,
+                            top: 0,
+                            child: Container(
+                              child: Text(
+                                '  #${pokemon.id}  ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.white,
+                                  border: Border.all(),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        offset: Offset(2, 3),
+                                        color: Colors.black)
+                                  ]),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
                   },
-                  child: Text('Mosta todos'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    objectbox.clear();
-                  },
-                  child: Text('Limpar db'),
-                ),
-                 */
+                ))
+          ],
+        ),
 
-            ListView.builder(
+        /**
+         * ListView(
+          children: [
+            GridView.builder(
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
               padding: EdgeInsets.all(10),
               shrinkWrap: true,
-              itemCount: 10, //objectbox.getAllPokemons().length,
+              itemCount: 10,
               itemBuilder: (context, index) {
                 Pokemon? pokemon = objectbox.getPokemon(index + 1);
-                String name = pokemon!.name.toUpperCase();
-                String id = pokemon.id.toString();
-                return Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                      border: Border.all(),
-                      boxShadow: [
-                        BoxShadow(offset: Offset(2, 3), color: Colors.black)
-                      ]),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      trailing: Text(
-                        name,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      title: SizedBox(
-                        height: 50,
-                        width: 50,
-                        child: SvgPicture.file(
-                          File(pokemon.photoPath!),
+
+                return Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.grey.shade100,
+                          border: Border.all(width: 2),
+                          boxShadow: [
+                            BoxShadow(offset: Offset(2, 3), color: Colors.black)
+                          ]),
+                    ),
+                    Positioned(
+                      top: 15,
+                      left: 100,
+                      child: Container(
+                        height: 10,
+                        width: 10,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: redColor,
+                          border: Border.all(),
                         ),
                       ),
-                      leading: Text('# $id'),
                     ),
-                  ),
+                    Positioned(
+                      top: 15,
+                      right: 100,
+                      child: Container(
+                        height: 10,
+                        width: 10,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: redColor,
+                          border: Border.all(),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 15,
+                      left: 40,
+                      child: Container(
+                        height: 15,
+                        width: 15,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: redColor,
+                          border: Border.all(),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                        bottom: 10,
+                        right: 50,
+                        child: Icon(
+                          Icons.menu,
+                          size: 30,
+                        )),
+                    Positioned(
+                        child: Container(
+                      height: 160,
+                      width: 200,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [BoxShadow(offset: Offset(2, 2))],
+                          color: blueColor,
+                          border: Border.all()),
+                    )),
+                    Container(
+                      height: 150,
+                      width: 150,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(kpathPokeballBackground))),
+                    ),
+                    SizedBox(
+                      height: 120,
+                      width: 120,
+                      child: SvgPicture.file(
+                        File(pokemon!.photoPath!),
+                      ),
+                    ),
+                    //Pokemon Number
+                    Positioned(
+                      right: 20,
+                      top: 0,
+                      child: Container(
+                        child: Text(
+                          '  #${pokemon.id}  ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white,
+                            border: Border.all(),
+                            boxShadow: [
+                              BoxShadow(
+                                  offset: Offset(2, 3), color: Colors.black)
+                            ]),
+                      ),
+                    )
+                  ],
                 );
               },
             )
           ],
         ),
+         */
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,

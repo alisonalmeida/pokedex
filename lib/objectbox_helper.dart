@@ -1,6 +1,6 @@
 import 'package:pokedex/objectbox.g.dart';
 import 'package:pokedex/pokemon_model.dart';
-import 'package:pokedex/utils/initialization.dart';
+import 'package:pokedex/utils/core.dart';
 
 class Objectbox {
   late final Store _store;

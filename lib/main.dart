@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pokedex/home_page.dart';
 import 'package:pokedex/objectbox_helper.dart';
-import 'package:pokedex/utils/initialization.dart';
+import 'package:pokedex/screens/check_data_screen.dart';
+import 'package:pokedex/utils/core.dart';
 
 // BASE DESIGN: https://dribbble.com/shots/19287892-Pokemon-Neobrutalism
 
@@ -28,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: CheckDataPage(),
       builder: EasyLoading.init(),
     );
   }
