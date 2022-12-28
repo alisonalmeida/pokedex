@@ -12,12 +12,11 @@ String pokemonSvgPath = '';
 final Dio dio = Dio();
 
 Future initAppConfigurations() async {
-  print('initConfig');
+  
   await getAppDirectory();
 }
 
 Future getAppDirectory() async {
-  print('getAppDirectory');
   Directory? tempDir = Platform.isAndroid
       ? await getExternalStorageDirectory()
       : await getApplicationDocumentsDirectory();
@@ -26,8 +25,7 @@ Future getAppDirectory() async {
   await directoryApp!.create();
   path = directoryApp!.path;
   pokemonSvgPath = '$path\\svg';
-  print('PATH: $path');
-  print('pokemonSvgPath: $pokemonSvgPath');
+
 }
 
 Future downloadPokemonData() async {
@@ -39,7 +37,6 @@ Future downloadPokemonData() async {
     }
 
     if (!containDbPokemonData(i)) {
-      print('checkDbPokemonData');
       var v = await dio.get('https://pokeapi.co/api/v2/pokemon/$i/');
 
       Pokemon p = Pokemon.fromMap(v.data);
@@ -63,8 +60,6 @@ Future downloadPokemonData() async {
 
 Future<bool> containSvgPokemonData(int index) async {
   var v = await File('$pokemonSvgPath\\$index.svg').exists();
-  print('$pokemonSvgPath\\$index.svg');
-  print(v);
   return v;
 }
 
@@ -75,7 +70,7 @@ bool containDbPokemonData(int index) {
 Future<bool> checkAppData() async {
   bool isAppCompleted = true;
   for (var i = 1; i <= maxPokemonNumber; i++) {
-    print(i);
+
     isAppCompleted = containDbPokemonData(i);
 
     

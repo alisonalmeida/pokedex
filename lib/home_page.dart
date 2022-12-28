@@ -9,8 +9,8 @@ import 'package:pokedex/pokemon_model.dart';
 import 'package:pokedex/screens/pokemon_detailed_screen.dart';
 import 'package:pokedex/utils/colors.dart';
 import 'package:pokedex/utils/consts.dart';
-import 'package:pokedex/utils/core.dart';
 import 'package:pokedex/utils/red_ball.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,16 +20,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double pokemonWidth = 120;
-  double pokemonHeight = 120;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double height = size.height;
+    double width = size.width;
+    double numberPokemonInScreen = 1;
+    if (width > 1000) {
+      numberPokemonInScreen = 5;
+    } else if (width <= 1000 && width > 600) {
+      numberPokemonInScreen = 3;
+    } else {
+      numberPokemonInScreen = 2;
+    }
+    NumberFormat formatter = NumberFormat('000');
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -39,23 +43,20 @@ class _HomePageState extends State<HomePage> {
               snap: false,
               pinned: false,
               floating: false,
-              expandedHeight: 230,
+              expandedHeight: height / 6,
+              toolbarHeight: height / 5,
               backgroundColor: Colors.grey.shade100,
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
-                title: SizedBox(
-                    height: 120,
-                    child:
-                        Image.asset(kpathPokemonLogo, fit: BoxFit.fitHeight)),
+                title: Image.asset(kpathPokemonLogo, fit: BoxFit.scaleDown),
               ),
               elevation: 0,
-              toolbarHeight: 120,
             ),
             SliverGrid(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
+                    crossAxisCount: numberPokemonInScreen.toInt()),
                 delegate: SliverChildBuilderDelegate(
-                  childCount: 10,
+                  childCount: objectbox.getAllPokemons().length,
                   (context, index) {
                     Pokemon? pokemon = objectbox.getPokemon(index + 1);
                     return GestureDetector(
@@ -69,7 +70,9 @@ class _HomePageState extends State<HomePage> {
                         alignment: Alignment.center,
                         children: [
                           Container(
-                            margin: EdgeInsets.all(5),
+                            height: height,
+                            width: width,
+                            margin: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.grey.shade100,
@@ -85,12 +88,9 @@ class _HomePageState extends State<HomePage> {
                                   height: 15,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    redBall,
-                                    SizedBox(width: 20),
-                                    redBall
-                                  ],
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [redBall, redBall],
                                 ),
                                 SizedBox(height: 10),
                                 Expanded(
@@ -98,8 +98,8 @@ class _HomePageState extends State<HomePage> {
                                     alignment: Alignment.center,
                                     children: [
                                       Container(
-                                        height: pokemonHeight + 1000,
-                                        width: pokemonWidth + 40,
+                                        height: height - 50,
+                                        width: width - 50,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(20),
@@ -110,8 +110,8 @@ class _HomePageState extends State<HomePage> {
                                             border: Border.all()),
                                       ),
                                       Container(
-                                        height: pokemonHeight + 20,
-                                        width: pokemonWidth + 20,
+                                        height: height - 80,
+                                        width: width - 80,
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
                                             image: AssetImage(
@@ -120,20 +120,23 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: pokemonHeight,
-                                        width: pokemonWidth,
-                                        child: SvgPicture.file(
-                                          File(pokemon!.photoPath!),
+                                        height: height - 100,
+                                        width: width - 100,
+                                        child: Hero(
+                                          tag: pokemon!.photoPath!,
+                                          child: SvgPicture.file(
+                                            File(pokemon.photoPath!),
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     redBall,
-                                    SizedBox(width: 70),
                                     Icon(
                                       Icons.menu,
                                       size: 30,
@@ -150,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                             top: 0,
                             child: Container(
                               child: Text(
-                                '  #${pokemon.id}  ',
+                                '  #${formatter.format(pokemon.id)}  ',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20),
                               ),
@@ -172,131 +175,9 @@ class _HomePageState extends State<HomePage> {
                 ))
           ],
         ),
-
-        /**
-         * ListView(
-          children: [
-            GridView.builder(
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-              padding: EdgeInsets.all(10),
-              shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                Pokemon? pokemon = objectbox.getPokemon(index + 1);
-
-                return Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.grey.shade100,
-                          border: Border.all(width: 2),
-                          boxShadow: [
-                            BoxShadow(offset: Offset(2, 3), color: Colors.black)
-                          ]),
-                    ),
-                    Positioned(
-                      top: 15,
-                      left: 100,
-                      child: Container(
-                        height: 10,
-                        width: 10,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: redColor,
-                          border: Border.all(),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 15,
-                      right: 100,
-                      child: Container(
-                        height: 10,
-                        width: 10,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: redColor,
-                          border: Border.all(),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 15,
-                      left: 40,
-                      child: Container(
-                        height: 15,
-                        width: 15,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: redColor,
-                          border: Border.all(),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                        bottom: 10,
-                        right: 50,
-                        child: Icon(
-                          Icons.menu,
-                          size: 30,
-                        )),
-                    Positioned(
-                        child: Container(
-                      height: 160,
-                      width: 200,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [BoxShadow(offset: Offset(2, 2))],
-                          color: blueColor,
-                          border: Border.all()),
-                    )),
-                    Container(
-                      height: 150,
-                      width: 150,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(kpathPokeballBackground))),
-                    ),
-                    SizedBox(
-                      height: 120,
-                      width: 120,
-                      child: SvgPicture.file(
-                        File(pokemon!.photoPath!),
-                      ),
-                    ),
-                    //Pokemon Number
-                    Positioned(
-                      right: 20,
-                      top: 0,
-                      child: Container(
-                        child: Text(
-                          '  #${pokemon.id}  ',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
-                            border: Border.all(),
-                            boxShadow: [
-                              BoxShadow(
-                                  offset: Offset(2, 3), color: Colors.black)
-                            ]),
-                      ),
-                    )
-                  ],
-                );
-              },
-            )
-          ],
-        ),
-         */
       ),
-      floatingActionButton: FloatingActionButton(
+      /**
+       * floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         child: Padding(
           padding: const EdgeInsets.all(2.0),
@@ -307,6 +188,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+       */
       bottomNavigationBar: SizedBox(
         height: 60,
         child: Column(

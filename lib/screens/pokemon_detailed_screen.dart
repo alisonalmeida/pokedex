@@ -1,11 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable
 
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pokedex/pokemon_model.dart';
-import 'package:pokedex/utils/colors.dart';
 
 class DetailedPokemonPage extends StatelessWidget {
   Pokemon pokemon;
@@ -28,17 +27,18 @@ class DetailedPokemonPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: 10),
             child: Icon(
-              Icons.heart_broken,
-              color: redColor,
+              Icons.catching_pokemon_sharp,
             ),
           )
         ],
       ),
       body: Center(
-        child: Container(
+        child: SizedBox(
           height: 300,
           width: 300,
-          child: SvgPicture.file(File(pokemon.photoPath!)),
+          child: Hero(
+              tag: pokemon.photoPath!,
+              child: SvgPicture.file(File(pokemon.photoPath!))),
         ),
       ),
     );
