@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pokedex/main.dart';
 import 'package:pokedex/pokemon_model.dart';
+import 'package:pokedex/pokemon_types_model.dart';
 import 'package:pokedex/screens/pokemon_detailed_screen.dart';
 import 'package:pokedex/utils/colors.dart';
 import 'package:pokedex/utils/consts.dart';
+import 'package:pokedex/utils/core.dart';
 import 'package:pokedex/utils/red_ball.dart';
 import 'package:intl/intl.dart';
 
@@ -59,6 +61,7 @@ class _HomePageState extends State<HomePage> {
                   childCount: objectbox.getAllPokemons().length,
                   (context, index) {
                     Pokemon? pokemon = objectbox.getPokemon(index + 1);
+
                     return GestureDetector(
                       onTap: () => Navigator.push(
                           context,
@@ -176,19 +179,18 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      /**
-       * floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         child: Padding(
           padding: const EdgeInsets.all(2.0),
           child: Image.asset('lib/assets/img/pokebola.png'),
         ),
         onPressed: () async {
-          downloadPokemonData();
+          // downloadPokemonData();
+          objectbox.clear();
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-       */
       bottomNavigationBar: SizedBox(
         height: 60,
         child: Column(

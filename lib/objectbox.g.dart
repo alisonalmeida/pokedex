@@ -4,7 +4,7 @@
 // With a Dart package, run `dart run build_runner build`.
 // See also https://docs.objectbox.io/getting-started#generate-objectbox-code
 
-// ignore_for_file: camel_case_types, depend_on_referenced_packages
+// ignore_for_file: camel_case_types
 // coverage:ignore-file
 
 import 'dart:typed_data';
@@ -20,35 +20,40 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <ModelEntity>[
   ModelEntity(
-      id: const IdUid(1, 3986456468035199037),
+      id: const IdUid(1, 7647942758602978057),
       name: 'Pokemon',
-      lastPropertyId: const IdUid(5, 31546872172105926),
+      lastPropertyId: const IdUid(6, 8472913998074867819),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 8557903241166385284),
+            id: const IdUid(1, 7002875711695264473),
             name: 'id',
             type: 6,
             flags: 129),
         ModelProperty(
-            id: const IdUid(2, 5471994747883020018),
+            id: const IdUid(2, 8147974143235190476),
             name: 'name',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 7337338046274278629),
+            id: const IdUid(3, 89421402038351078),
             name: 'photoPath',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(4, 2104633842969641373),
+            id: const IdUid(4, 1776612044426570357),
             name: 'height',
             type: 6,
             flags: 0),
         ModelProperty(
-            id: const IdUid(5, 31546872172105926),
+            id: const IdUid(5, 3356865981323882053),
             name: 'weight',
             type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 8472913998074867819),
+            name: 'types',
+            type: 9,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -75,7 +80,7 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(1, 3986456468035199037),
+      lastEntityId: const IdUid(1, 7647942758602978057),
       lastIndexId: const IdUid(0, 0),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
@@ -101,12 +106,14 @@ ModelDefinition getObjectBoxModel() {
           final photoPathOffset = object.photoPath == null
               ? null
               : fbb.writeString(object.photoPath!);
-          fbb.startTable(6);
+          final typesOffset = fbb.writeString(object.types);
+          fbb.startTable(7);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addOffset(2, photoPathOffset);
           fbb.addInt64(3, object.height);
           fbb.addInt64(4, object.weight);
+          fbb.addOffset(5, typesOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -123,7 +130,9 @@ ModelDefinition getObjectBoxModel() {
               height:
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0),
               weight:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0));
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0),
+              types: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 14, ''));
 
           return object;
         })
@@ -151,4 +160,7 @@ class Pokemon_ {
   /// see [Pokemon.weight]
   static final weight =
       QueryIntegerProperty<Pokemon>(_entities[0].properties[4]);
+
+  /// see [Pokemon.types]
+  static final types = QueryStringProperty<Pokemon>(_entities[0].properties[5]);
 }

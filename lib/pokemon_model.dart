@@ -10,6 +10,7 @@ class Pokemon {
   String? photoPath;
   int height;
   int weight;
+   String types;
 
   Pokemon({
     required this.id,
@@ -17,6 +18,7 @@ class Pokemon {
     this.photoPath,
     required this.height,
     required this.weight,
+    required this.types,
   });
   factory Pokemon.fromJson(String str) => Pokemon.fromMap(json.decode(str));
 
@@ -26,6 +28,7 @@ class Pokemon {
         id: json["id"],
         name: json["name"],
         weight: json["weight"],
+        types: json["types"].toString(),
       );
 
   Map<String, dynamic> toMap() => {
@@ -33,10 +36,8 @@ class Pokemon {
         "id": id,
         "name": name,
         "weight": weight,
+        "types": types,
       };
 
-  @override
-  String toString() {
-    return 'Id: $id, Name: $name, PhotoPath: $photoPath, Height: $height, Weight: $weight';
-  }
+  
 }

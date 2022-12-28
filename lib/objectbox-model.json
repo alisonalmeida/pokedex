@@ -4,33 +4,33 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:3986456468035199037",
-      "lastPropertyId": "5:31546872172105926",
+      "id": "1:7647942758602978057",
+      "lastPropertyId": "6:8472913998074867819",
       "name": "Pokemon",
       "properties": [
         {
-          "id": "1:8557903241166385284",
+          "id": "1:7002875711695264473",
           "name": "id",
           "type": 6,
           "flags": 129
         },
         {
-          "id": "2:5471994747883020018",
+          "id": "2:8147974143235190476",
           "name": "name",
           "type": 9
         },
         {
-          "id": "3:7337338046274278629",
+          "id": "3:89421402038351078",
           "name": "photoPath",
           "type": 9
         },
         {
-          "id": "4:2104633842969641373",
+          "id": "4:1776612044426570357",
           "name": "height",
           "type": 6
         },
         {
-          "id": "5:31546872172105926",
+          "id": "5:3356865981323882053",
           "name": "weight",
           "type": 6
         }
@@ -38,7 +38,7 @@
       "relations": []
     }
   ],
-  "lastEntityId": "1:3986456468035199037",
+  "lastEntityId": "1:7647942758602978057",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
@@ -46,7 +46,9 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    8472913998074867819
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

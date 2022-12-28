@@ -12,7 +12,6 @@ String pokemonSvgPath = '';
 final Dio dio = Dio();
 
 Future initAppConfigurations() async {
-  
   await getAppDirectory();
 }
 
@@ -25,7 +24,6 @@ Future getAppDirectory() async {
   await directoryApp!.create();
   path = directoryApp!.path;
   pokemonSvgPath = '$path\\svg';
-
 }
 
 Future downloadPokemonData() async {
@@ -38,16 +36,17 @@ Future downloadPokemonData() async {
 
     if (!containDbPokemonData(i)) {
       var v = await dio.get('https://pokeapi.co/api/v2/pokemon/$i/');
+      print(v);
 
       Pokemon p = Pokemon.fromMap(v.data);
 
       Pokemon pokemon = Pokemon(
-        id: p.id,
-        name: p.name,
-        height: p.height,
-        weight: p.weight,
-        photoPath: '$pokemonSvgPath\\$i.svg',
-      );
+          id: p.id,
+          name: p.name,
+          height: p.height,
+          weight: p.weight,
+          photoPath: '$pokemonSvgPath\\$i.svg',
+          types: p.types);
       objectbox.insertPokemon(pokemon);
     }
 
@@ -70,10 +69,8 @@ bool containDbPokemonData(int index) {
 Future<bool> checkAppData() async {
   bool isAppCompleted = true;
   for (var i = 1; i <= maxPokemonNumber; i++) {
-
     isAppCompleted = containDbPokemonData(i);
 
-    
     isAppCompleted = await containSvgPokemonData(i);
     if (!isAppCompleted) {
       break;

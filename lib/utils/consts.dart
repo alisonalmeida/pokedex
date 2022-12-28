@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 
 const appName = 'pokedex';
 
-const int maxPokemonNumber = 251;
+const int maxPokemonNumber = 10;
 
 const kpathPokemonLogo = 'lib/assets/img/pokemon-logo.png';
 const kpathPokeballLottie = 'lib/assets/animations/pokeball-animation.json';
-const kpathPokeballBackground='lib/assets/img/background-pokemon.png';
+const kpathPokeballBackground = 'lib/assets/img/background-pokemon.png';
+
+const List<String> listTypes = ['ground', 'psychic', 'grass', 'fairy', 'fighting'];
 
 Future<bool> showAlertDownloadMessage(BuildContext context) async {
   bool wantDownload = false;

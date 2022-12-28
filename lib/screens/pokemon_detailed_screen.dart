@@ -13,6 +13,7 @@ class DetailedPokemonPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(pokemon);
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.black,
@@ -32,14 +33,30 @@ class DetailedPokemonPage extends StatelessWidget {
           )
         ],
       ),
-      body: Center(
-        child: SizedBox(
-          height: 300,
-          width: 300,
-          child: Hero(
+      body: ListView(
+        children: [
+          SizedBox(
+            height: 300,
+            width: 300,
+            child: Hero(
               tag: pokemon.photoPath!,
-              child: SvgPicture.file(File(pokemon.photoPath!))),
-        ),
+              child: SvgPicture.file(
+                File(pokemon.photoPath!),
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(8)),
+            child: Row(
+              children: [
+                Text('data'),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
