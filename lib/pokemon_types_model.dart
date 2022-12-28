@@ -4,20 +4,27 @@
 
 import 'dart:convert';
 
-Type typesFromMap(String str) => Type.fromMap(json.decode(str));
 
-String typesToMap(Type data) => json.encode(data.toMap());
+import 'package:objectbox/objectbox.dart';
+import 'package:pokedex/pokemon_model.dart';
 
-class Type {
-  Type({
+PokemonType typesFromMap(String str) => PokemonType.fromMap(json.decode(str));
+
+String typesToMap(PokemonType data) => json.encode(data.toMap());
+
+@Entity()
+class PokemonType {
+  PokemonType({
+    int id = 0,
     required this.name,
     required this.url,
   });
-
+  int id = 0;
   final String name;
   final String url;
+  final pokemonModel = ToOne<Pokemon>();
 
-  factory Type.fromMap(Map<String, dynamic> json) => Type(
+  factory PokemonType.fromMap(Map<String, dynamic> json) => PokemonType(
         name: json["name"],
         url: json["url"],
       );
@@ -26,4 +33,10 @@ class Type {
         "name": name,
         "url": url,
       };
+
+  @override
+  String toString() {
+    
+    return '$name, $url';
+  }
 }

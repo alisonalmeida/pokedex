@@ -41,12 +41,12 @@ Future downloadPokemonData() async {
       Pokemon p = Pokemon.fromMap(v.data);
 
       Pokemon pokemon = Pokemon(
-          id: p.id,
-          name: p.name,
-          height: p.height,
-          weight: p.weight,
-          photoPath: '$pokemonSvgPath\\$i.svg',
-          types: p.types);
+        id: p.id,
+        name: p.name,
+        height: p.height,
+        weight: p.weight,
+        photoPath: '$pokemonSvgPath\\$i.svg',
+      );
       objectbox.insertPokemon(pokemon);
     }
 

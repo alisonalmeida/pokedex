@@ -36,10 +36,42 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "2:6490171836634848146",
+      "lastPropertyId": "4:1601785188668984092",
+      "name": "PokemonType",
+      "properties": [
+        {
+          "id": "1:4890832958400550021",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3038121440395055535",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:5652413307522907836",
+          "name": "url",
+          "type": 9
+        },
+        {
+          "id": "4:1601785188668984092",
+          "name": "pokemonModelId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:5262322652695050438",
+          "relationTarget": "Pokemon"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:7647942758602978057",
-  "lastIndexId": "0:0",
+  "lastEntityId": "2:6490171836634848146",
+  "lastIndexId": "1:5262322652695050438",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

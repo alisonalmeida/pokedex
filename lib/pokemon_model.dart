@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:objectbox/objectbox.dart';
+import 'package:pokedex/pokemon_types_model.dart';
 
 @Entity()
 class Pokemon {
@@ -10,7 +11,9 @@ class Pokemon {
   String? photoPath;
   int height;
   int weight;
-   String types;
+
+  @Backlink()
+  final types = ToMany<PokemonType>();
 
   Pokemon({
     required this.id,
@@ -18,7 +21,6 @@ class Pokemon {
     this.photoPath,
     required this.height,
     required this.weight,
-    required this.types,
   });
   factory Pokemon.fromJson(String str) => Pokemon.fromMap(json.decode(str));
 
@@ -28,7 +30,6 @@ class Pokemon {
         id: json["id"],
         name: json["name"],
         weight: json["weight"],
-        types: json["types"].toString(),
       );
 
   Map<String, dynamic> toMap() => {
@@ -38,6 +39,4 @@ class Pokemon {
         "weight": weight,
         "types": types,
       };
-
-  
 }

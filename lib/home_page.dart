@@ -61,6 +61,9 @@ class _HomePageState extends State<HomePage> {
                   childCount: objectbox.getAllPokemons().length,
                   (context, index) {
                     Pokemon? pokemon = objectbox.getPokemon(index + 1);
+                    PokemonType pokemonType = PokemonType(name: 'a', url: 'b');
+                    pokemon!.types.add(pokemonType);
+                    print(pokemon.types);
 
                     return GestureDetector(
                       onTap: () => Navigator.push(

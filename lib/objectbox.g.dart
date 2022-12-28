@@ -15,6 +15,7 @@ import 'package:objectbox/objectbox.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'pokemon_model.dart';
+import 'pokemon_types_model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -49,12 +50,40 @@ final _entities = <ModelEntity>[
             id: const IdUid(5, 3356865981323882053),
             name: 'weight',
             type: 6,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[
+        ModelBacklink(name: 'types', srcEntity: 'PokemonType', srcField: '')
+      ]),
+  ModelEntity(
+      id: const IdUid(2, 6490171836634848146),
+      name: 'PokemonType',
+      lastPropertyId: const IdUid(4, 1601785188668984092),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 4890832958400550021),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 3038121440395055535),
+            name: 'name',
+            type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(6, 8472913998074867819),
-            name: 'types',
+            id: const IdUid(3, 5652413307522907836),
+            name: 'url',
             type: 9,
-            flags: 0)
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 1601785188668984092),
+            name: 'pokemonModelId',
+            type: 11,
+            flags: 520,
+            indexId: const IdUid(1, 5262322652695050438),
+            relationTarget: 'Pokemon')
       ],
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
@@ -80,13 +109,13 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(1, 7647942758602978057),
-      lastIndexId: const IdUid(0, 0),
+      lastEntityId: const IdUid(2, 6490171836634848146),
+      lastIndexId: const IdUid(1, 5262322652695050438),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [8472913998074867819],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -96,7 +125,11 @@ ModelDefinition getObjectBoxModel() {
     Pokemon: EntityDefinition<Pokemon>(
         model: _entities[0],
         toOneRelations: (Pokemon object) => [],
-        toManyRelations: (Pokemon object) => {},
+        toManyRelations: (Pokemon object) => {
+              RelInfo<PokemonType>.toOneBacklink(4, object.id,
+                      (PokemonType srcObject) => srcObject.pokemonModel):
+                  object.types
+            },
         getId: (Pokemon object) => object.id,
         setId: (Pokemon object, int id) {
           object.id = id;
@@ -106,14 +139,12 @@ ModelDefinition getObjectBoxModel() {
           final photoPathOffset = object.photoPath == null
               ? null
               : fbb.writeString(object.photoPath!);
-          final typesOffset = fbb.writeString(object.types);
           fbb.startTable(7);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addOffset(2, photoPathOffset);
           fbb.addInt64(3, object.height);
           fbb.addInt64(4, object.weight);
-          fbb.addOffset(5, typesOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -130,10 +161,47 @@ ModelDefinition getObjectBoxModel() {
               height:
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0),
               weight:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0),
-              types: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 14, ''));
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0));
+          InternalToManyAccess.setRelInfo(
+              object.types,
+              store,
+              RelInfo<PokemonType>.toOneBacklink(4, object.id,
+                  (PokemonType srcObject) => srcObject.pokemonModel),
+              store.box<Pokemon>());
+          return object;
+        }),
+    PokemonType: EntityDefinition<PokemonType>(
+        model: _entities[1],
+        toOneRelations: (PokemonType object) => [object.pokemonModel],
+        toManyRelations: (PokemonType object) => {},
+        getId: (PokemonType object) => object.id,
+        setId: (PokemonType object, int id) {
+          object.id = id;
+        },
+        objectToFB: (PokemonType object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          final urlOffset = fbb.writeString(object.url);
+          fbb.startTable(5);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, nameOffset);
+          fbb.addOffset(2, urlOffset);
+          fbb.addInt64(3, object.pokemonModel.targetId);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
 
+          final object = PokemonType(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              name: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              url: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, ''));
+          object.pokemonModel.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
+          object.pokemonModel.attach(store);
           return object;
         })
   };
@@ -160,7 +228,23 @@ class Pokemon_ {
   /// see [Pokemon.weight]
   static final weight =
       QueryIntegerProperty<Pokemon>(_entities[0].properties[4]);
+}
 
-  /// see [Pokemon.types]
-  static final types = QueryStringProperty<Pokemon>(_entities[0].properties[5]);
+/// [PokemonType] entity fields to define ObjectBox queries.
+class PokemonType_ {
+  /// see [PokemonType.id]
+  static final id =
+      QueryIntegerProperty<PokemonType>(_entities[1].properties[0]);
+
+  /// see [PokemonType.name]
+  static final name =
+      QueryStringProperty<PokemonType>(_entities[1].properties[1]);
+
+  /// see [PokemonType.url]
+  static final url =
+      QueryStringProperty<PokemonType>(_entities[1].properties[2]);
+
+  /// see [PokemonType.pokemonModel]
+  static final pokemonModel =
+      QueryRelationToOne<PokemonType, Pokemon>(_entities[1].properties[3]);
 }
