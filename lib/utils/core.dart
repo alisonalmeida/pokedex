@@ -28,6 +28,7 @@ Future getAppDirectory() async {
 
 Future downloadPokemonData() async {
   for (var i = 1; i <= maxPokemonNumber; i++) {
+    print(i);
     if (!await containSvgPokemonData(i)) {
       await dio.download(
           'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/$i.svg',
@@ -70,11 +71,12 @@ Future<bool> checkAppData() async {
   bool isAppCompleted = true;
   for (var i = 1; i <= maxPokemonNumber; i++) {
     isAppCompleted = containDbPokemonData(i);
-
-    isAppCompleted = await containSvgPokemonData(i);
     if (!isAppCompleted) {
       break;
     }
+
+    isAppCompleted = await containSvgPokemonData(i);
+
     if (!isAppCompleted) {
       break;
     }

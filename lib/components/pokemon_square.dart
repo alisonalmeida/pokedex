@@ -1,8 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:pokedex/components/pokemon_number.dart';
 import 'package:pokedex/components/red_ball.dart';
 import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/utils/colors.dart';
@@ -23,24 +26,23 @@ class PokemonSquare extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Container(
-          margin: const  EdgeInsets.all(10),
+          height: height * 0.5,
+          width: width * 0.8,
+          margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(30),
               color: Colors.grey.shade100,
-              border: Border.all(width: 2),
+              border: Border.all(width: 3),
               boxShadow: [
-                BoxShadow(offset: const Offset(2, 3), color: Colors.blue.shade700)
+                BoxShadow(offset: const Offset(5, 4), color: Colors.black)
               ]),
           child: Column(
             children: [
               const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  RedBall(height: height, width: width),
-                  RedBall(height: height, width: width),
-                ],
-              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                RedBall(height: height, width: width),
+                RedBall(height: height, width: width)
+              ]),
               const SizedBox(height: 10),
               Expanded(
                 child: Container(
@@ -58,11 +60,11 @@ class PokemonSquare extends StatelessWidget {
                           image: AssetImage(kpathPokeballBackground),
                         ),
                       ),
-                      child: FractionallySizedBox(
-                        heightFactor: 0.8,
-                        widthFactor: 0.8,
-                        child: Hero(
-                          tag: pokemon.photoPath!,
+                      child: Hero(
+                        tag: pokemon.photoPath!,
+                        child: FractionallySizedBox(
+                          heightFactor: 0.8,
+                          widthFactor: 0.8,
                           child: SvgPicture.file(
                             File(pokemon.photoPath!),
                           ),
@@ -83,25 +85,7 @@ class PokemonSquare extends StatelessWidget {
             ],
           ),
         ),
-
-        //Pokemon Number
-        Positioned(
-          right: 20,
-          top: 0,
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.white,
-                border: Border.all(),
-                boxShadow:const  [
-                  BoxShadow(offset: Offset(2, 3), color: Colors.black)
-                ]),
-            child: Text(
-              '  #${formatter.format(pokemon.id)}  ',
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-          ),
-        )
+        PokemonNumber(formatter: formatter, pokemon: pokemon),
       ],
     );
   }

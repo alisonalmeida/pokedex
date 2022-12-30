@@ -12,7 +12,6 @@ import 'package:pokedex/screens/pokemon_detailed_screen.dart';
 import 'package:pokedex/utils/colors.dart';
 import 'package:pokedex/utils/consts.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -26,7 +25,7 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    double numberPokemonInScreen = 1;
+    double numberPokemonInScreen = 2;
     if (width > 1000) {
       numberPokemonInScreen = 5;
     } else if (width <= 1000 && width > 600) {
@@ -51,29 +50,29 @@ class _HomePageState extends State<HomePage> {
                 centerTitle: true,
                 title: Image.asset(kpathPokemonLogo, fit: BoxFit.scaleDown),
               ),
-              elevation: 0,
             ),
             SliverGrid(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: numberPokemonInScreen.toInt()),
-                delegate: SliverChildBuilderDelegate(
-                  childCount: objectbox.getAllPokemons().length,
-                  (context, index) {
-                    Pokemon? pokemon = objectbox.getPokemon(index + 1);
-
-                    return GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                DetailedPokemonPage(pokemon: pokemon),
-                          )),
-                      child: PokemonSquare(
-                        pokemon: pokemon!,
-                      ),
-                    );
-                  },
-                ))
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: numberPokemonInScreen.toInt(),
+              ),
+              delegate: SliverChildBuilderDelegate(
+                childCount: objectbox.getAllPokemons().length,
+                (context, index) {
+                  Pokemon? pokemon = objectbox.getPokemon(index + 1);
+                  return GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DetailedPokemonPage(pokemon: pokemon),
+                        )),
+                    child: PokemonSquare(
+                      pokemon: pokemon!,
+                    ),
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),
@@ -83,9 +82,9 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(2.0),
           child: Image.asset('lib/assets/img/pokebola.png'),
         ),
-        onPressed: () async {
-          // downloadPokemonData();
-          objectbox.clear();
+        onPressed: () {
+          //objectbox.clear();
+          print(objectbox.getAllPokemons());
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
