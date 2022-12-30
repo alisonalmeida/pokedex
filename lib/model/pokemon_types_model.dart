@@ -6,7 +6,8 @@ import 'dart:convert';
 
 
 import 'package:objectbox/objectbox.dart';
-import 'package:pokedex/pokemon_model.dart';
+import 'package:pokedex/model/pokemon_model.dart';
+
 
 PokemonType typesFromMap(String str) => PokemonType.fromMap(json.decode(str));
 

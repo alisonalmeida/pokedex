@@ -3,7 +3,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:dio/dio.dart';
 import 'package:pokedex/main.dart';
-import 'package:pokedex/pokemon_model.dart';
+import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/utils/consts.dart';
 
 Directory? directoryApp;

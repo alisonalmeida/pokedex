@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pokedex/home_page.dart';
+import 'package:pokedex/screens/home_page.dart';
 import 'package:pokedex/utils/colors.dart';
 import 'package:pokedex/utils/consts.dart';
 import 'package:pokedex/utils/core.dart';

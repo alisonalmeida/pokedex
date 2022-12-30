@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:objectbox/objectbox.dart';
-import 'package:pokedex/pokemon_types_model.dart';
+import 'package:pokedex/model/pokemon_types_model.dart';
 
 @Entity()
 class Pokemon {

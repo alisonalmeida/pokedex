@@ -1,10 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pokedex/pokemon_model.dart';
+import 'package:pokedex/components/pokemon_square.dart';
+import 'package:pokedex/model/pokemon_model.dart';
 
 class DetailedPokemonPage extends StatelessWidget {
   Pokemon pokemon;
@@ -13,7 +11,9 @@ class DetailedPokemonPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(pokemon);
+    Size size = MediaQuery.of(context).size;
+    var widht = size.width;
+    var height = size.height;
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.black,
@@ -27,35 +27,14 @@ class DetailedPokemonPage extends StatelessWidget {
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 10),
-            child: Icon(
-              Icons.catching_pokemon_sharp,
-            ),
+            child: Icon(Icons.catching_pokemon_sharp),
           )
         ],
       ),
       body: ListView(
         children: [
-          SizedBox(
-            height: 300,
-            width: 300,
-            child: Hero(
-              tag: pokemon.photoPath!,
-              child: SvgPicture.file(
-                File(pokemon.photoPath!),
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                border: Border.all(),
-                borderRadius: BorderRadius.circular(8)),
-            child: Row(
-              children: [
-                Text('data'),
-              ],
-            ),
-          )
+          SizedBox(child: PokemonSquare(pokemon: pokemon)),
+          Text('data')
         ],
       ),
     );

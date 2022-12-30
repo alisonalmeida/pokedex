@@ -13,9 +13,10 @@ import 'package:flat_buffers/flat_buffers.dart' as fb;
 import 'package:objectbox/internal.dart'; // generated code can access "internal" functionality
 import 'package:objectbox/objectbox.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
+import 'package:pokedex/model/pokemon_model.dart';
+import 'package:pokedex/model/pokemon_types_model.dart';
 
-import 'pokemon_model.dart';
-import 'pokemon_types_model.dart';
+
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
