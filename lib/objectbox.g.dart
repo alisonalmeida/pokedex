@@ -22,7 +22,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(1, 46258024845670569),
       name: 'Pokemon',
-      lastPropertyId: const IdUid(5, 2549216120736719857),
+      lastPropertyId: const IdUid(6, 6650851142051838988),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -49,6 +49,11 @@ final _entities = <ModelEntity>[
             id: const IdUid(5, 2549216120736719857),
             name: 'weight',
             type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 6650851142051838988),
+            name: 'informations',
+            type: 9,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -133,12 +138,14 @@ ModelDefinition getObjectBoxModel() {
           final photoPathOffset = object.photoPath == null
               ? null
               : fbb.writeString(object.photoPath!);
-          fbb.startTable(6);
+          final informationsOffset = fbb.writeString(object.informations);
+          fbb.startTable(7);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addOffset(2, photoPathOffset);
           fbb.addInt64(3, object.height);
           fbb.addInt64(4, object.weight);
+          fbb.addOffset(5, informationsOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -155,7 +162,9 @@ ModelDefinition getObjectBoxModel() {
               height:
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0),
               weight:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0));
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0),
+              informations: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 14, ''));
           InternalToManyAccess.setRelInfo(
               object.types,
               store,
@@ -218,6 +227,10 @@ class Pokemon_ {
   /// see [Pokemon.weight]
   static final weight =
       QueryIntegerProperty<Pokemon>(_entities[0].properties[4]);
+
+  /// see [Pokemon.informations]
+  static final informations =
+      QueryStringProperty<Pokemon>(_entities[0].properties[5]);
 }
 
 /// [PokemonType] entity fields to define ObjectBox queries.

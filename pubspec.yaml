@@ -94,6 +94,7 @@ flutter:
   - lib/assets/img/
   - lib/assets/animations/
   - lib/assets/audio/
+  - lib/assets/pokemon_types/
   
 
   # To add assets to your application, add an assets section, like this:

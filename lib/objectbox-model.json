@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:46258024845670569",
-      "lastPropertyId": "5:2549216120736719857",
+      "lastPropertyId": "6:6650851142051838988",
       "name": "Pokemon",
       "properties": [
         {
@@ -33,6 +33,11 @@
           "id": "5:2549216120736719857",
           "name": "weight",
           "type": 6
+        },
+        {
+          "id": "6:6650851142051838988",
+          "name": "informations",
+          "type": 9
         }
       ],
       "relations": []

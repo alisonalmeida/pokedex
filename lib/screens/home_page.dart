@@ -5,6 +5,7 @@ import 'package:pokedex/components/pokemon_square.dart';
 import 'package:pokedex/main.dart';
 import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/screens/pokemon_detailed_screen.dart';
+import 'package:pokedex/screens/test_screeen.dart';
 import 'package:pokedex/utils/colors.dart';
 import 'package:pokedex/utils/consts.dart';
 
@@ -79,20 +80,7 @@ class _HomePageState extends State<HomePage> {
           child: Image.asset('lib/assets/img/pokebola.png'),
         ),
         onPressed: () {
-          //objectbox.clear();
-          for (var pokemon in objectbox.getAllPokemons()) {
-            print(pokemon.name);
-            for (var element in pokemon.types) {
-              print(element.name);
-            }
-          }
-
-          //  PokemonType t = PokemonType( name: 'name');
-          //pokemon!.types.add(t);
-          //objectbox.insertPokemon(pokemon);
-          //   for (var pokemon in objectbox.getAllPokemons()) {
-          //     print(pokemon.types.first.name);
-          //   }
+          objectbox.clear();
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

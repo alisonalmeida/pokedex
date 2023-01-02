@@ -10,7 +10,26 @@ const kpathPokemonLogo = 'lib/assets/img/pokemon-logo.png';
 const kpathPokeballLottie = 'lib/assets/animations/pokeball-animation.json';
 const kpathPokeballBackground = 'lib/assets/img/background-pokemon.png';
 
-const List<String> listTypes = ['ground', 'psychic', 'grass', 'fairy', 'fighting'];
+List<String> listTypes = [
+  'grass',
+  'poison',
+  'fire',
+  'flying',
+  'water',
+  'bug',
+  'normal',
+  'electric',
+  'ground',
+  'fairy',
+  'fighting',
+  'psychic',
+  'rock',
+  'steel',
+  'ice',
+  'ghost',
+  'dragon',
+  'dark'
+];
 
 Future<bool> showAlertDownloadMessage(BuildContext context) async {
   bool wantDownload = false;

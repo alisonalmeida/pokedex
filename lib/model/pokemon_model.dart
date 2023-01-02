@@ -9,6 +9,7 @@ class Pokemon {
   String? photoPath;
   int height;
   int weight;
+  String informations;
 
   @Backlink()
   final types = ToMany<PokemonType>();
@@ -19,6 +20,7 @@ class Pokemon {
     this.photoPath,
     required this.height,
     required this.weight,
+    this.informations='',
   });
   factory Pokemon.fromJson(String str) => Pokemon.fromMap(json.decode(str));
 
@@ -47,24 +49,3 @@ class PokemonType {
 
   PokemonType({required this.name});
 }
-
-/**@Entity()
-class PokemonType {
-  PokemonType({
-    required this.name,
-  });
-  int id = 0;
-  final String name;
-  final pokemon = ToOne<Pokemon>();
-
-  factory PokemonType.fromJson(String str) =>
-      PokemonType.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory PokemonType.fromMap(Map<String, dynamic> json) =>
-      PokemonType(name: json["name"]);
-
-  Map<String, dynamic> toMap() => {"name": name};
-}
- */
