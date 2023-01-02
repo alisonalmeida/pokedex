@@ -1,13 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pokedex/components/pokemon_square.dart';
 import 'package:pokedex/main.dart';
 import 'package:pokedex/model/pokemon_model.dart';
-
 import 'package:pokedex/screens/pokemon_detailed_screen.dart';
 import 'package:pokedex/utils/colors.dart';
 import 'package:pokedex/utils/consts.dart';
@@ -84,7 +80,19 @@ class _HomePageState extends State<HomePage> {
         ),
         onPressed: () {
           //objectbox.clear();
-          print(objectbox.getAllPokemons());
+          for (var pokemon in objectbox.getAllPokemons()) {
+            print(pokemon.name);
+            for (var element in pokemon.types) {
+              print(element.name);
+            }
+          }
+
+          //  PokemonType t = PokemonType( name: 'name');
+          //pokemon!.types.add(t);
+          //objectbox.insertPokemon(pokemon);
+          //   for (var pokemon in objectbox.getAllPokemons()) {
+          //     print(pokemon.types.first.name);
+          //   }
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

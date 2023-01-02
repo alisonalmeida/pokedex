@@ -13,42 +13,40 @@ import 'package:flat_buffers/flat_buffers.dart' as fb;
 import 'package:objectbox/internal.dart'; // generated code can access "internal" functionality
 import 'package:objectbox/objectbox.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
-import 'package:pokedex/model/pokemon_model.dart';
-import 'package:pokedex/model/pokemon_types_model.dart';
 
-
+import 'model/pokemon_model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
 final _entities = <ModelEntity>[
   ModelEntity(
-      id: const IdUid(1, 7647942758602978057),
+      id: const IdUid(1, 46258024845670569),
       name: 'Pokemon',
-      lastPropertyId: const IdUid(6, 8472913998074867819),
+      lastPropertyId: const IdUid(5, 2549216120736719857),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 7002875711695264473),
+            id: const IdUid(1, 8909954153426261847),
             name: 'id',
             type: 6,
             flags: 129),
         ModelProperty(
-            id: const IdUid(2, 8147974143235190476),
+            id: const IdUid(2, 2763911837058123735),
             name: 'name',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 89421402038351078),
+            id: const IdUid(3, 1984724046746722718),
             name: 'photoPath',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(4, 1776612044426570357),
+            id: const IdUid(4, 1394478087474380190),
             name: 'height',
             type: 6,
             flags: 0),
         ModelProperty(
-            id: const IdUid(5, 3356865981323882053),
+            id: const IdUid(5, 2549216120736719857),
             name: 'weight',
             type: 6,
             flags: 0)
@@ -58,32 +56,27 @@ final _entities = <ModelEntity>[
         ModelBacklink(name: 'types', srcEntity: 'PokemonType', srcField: '')
       ]),
   ModelEntity(
-      id: const IdUid(2, 6490171836634848146),
+      id: const IdUid(2, 7686715002988446666),
       name: 'PokemonType',
-      lastPropertyId: const IdUid(4, 1601785188668984092),
+      lastPropertyId: const IdUid(3, 5690175325009757314),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 4890832958400550021),
+            id: const IdUid(1, 1355665783964011954),
             name: 'id',
             type: 6,
             flags: 1),
         ModelProperty(
-            id: const IdUid(2, 3038121440395055535),
+            id: const IdUid(2, 5483838984908567403),
             name: 'name',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 5652413307522907836),
-            name: 'url',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(4, 1601785188668984092),
-            name: 'pokemonModelId',
+            id: const IdUid(3, 5690175325009757314),
+            name: 'typeId',
             type: 11,
             flags: 520,
-            indexId: const IdUid(1, 5262322652695050438),
+            indexId: const IdUid(1, 8480482701182613135),
             relationTarget: 'Pokemon')
       ],
       relations: <ModelRelation>[],
@@ -110,13 +103,13 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(2, 6490171836634848146),
-      lastIndexId: const IdUid(1, 5262322652695050438),
+      lastEntityId: const IdUid(2, 7686715002988446666),
+      lastIndexId: const IdUid(1, 8480482701182613135),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [8472913998074867819],
+      retiredPropertyUids: const [],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -127,8 +120,8 @@ ModelDefinition getObjectBoxModel() {
         model: _entities[0],
         toOneRelations: (Pokemon object) => [],
         toManyRelations: (Pokemon object) => {
-              RelInfo<PokemonType>.toOneBacklink(4, object.id,
-                      (PokemonType srcObject) => srcObject.pokemonModel):
+              RelInfo<PokemonType>.toOneBacklink(
+                      3, object.id, (PokemonType srcObject) => srcObject.type):
                   object.types
             },
         getId: (Pokemon object) => object.id,
@@ -140,7 +133,7 @@ ModelDefinition getObjectBoxModel() {
           final photoPathOffset = object.photoPath == null
               ? null
               : fbb.writeString(object.photoPath!);
-          fbb.startTable(7);
+          fbb.startTable(6);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addOffset(2, photoPathOffset);
@@ -166,14 +159,14 @@ ModelDefinition getObjectBoxModel() {
           InternalToManyAccess.setRelInfo(
               object.types,
               store,
-              RelInfo<PokemonType>.toOneBacklink(4, object.id,
-                  (PokemonType srcObject) => srcObject.pokemonModel),
+              RelInfo<PokemonType>.toOneBacklink(
+                  3, object.id, (PokemonType srcObject) => srcObject.type),
               store.box<Pokemon>());
           return object;
         }),
     PokemonType: EntityDefinition<PokemonType>(
         model: _entities[1],
-        toOneRelations: (PokemonType object) => [object.pokemonModel],
+        toOneRelations: (PokemonType object) => [object.type],
         toManyRelations: (PokemonType object) => {},
         getId: (PokemonType object) => object.id,
         setId: (PokemonType object, int id) {
@@ -181,12 +174,10 @@ ModelDefinition getObjectBoxModel() {
         },
         objectToFB: (PokemonType object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
-          final urlOffset = fbb.writeString(object.url);
-          fbb.startTable(5);
+          fbb.startTable(4);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
-          fbb.addOffset(2, urlOffset);
-          fbb.addInt64(3, object.pokemonModel.targetId);
+          fbb.addInt64(2, object.type.targetId);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -195,14 +186,12 @@ ModelDefinition getObjectBoxModel() {
           final rootOffset = buffer.derefObject(0);
 
           final object = PokemonType(
-              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
               name: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 6, ''),
-              url: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 8, ''));
-          object.pokemonModel.targetId =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
-          object.pokemonModel.attach(store);
+                  .vTableGet(buffer, rootOffset, 6, ''))
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          object.type.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
+          object.type.attach(store);
           return object;
         })
   };
@@ -241,11 +230,7 @@ class PokemonType_ {
   static final name =
       QueryStringProperty<PokemonType>(_entities[1].properties[1]);
 
-  /// see [PokemonType.url]
-  static final url =
-      QueryStringProperty<PokemonType>(_entities[1].properties[2]);
-
-  /// see [PokemonType.pokemonModel]
-  static final pokemonModel =
-      QueryRelationToOne<PokemonType, Pokemon>(_entities[1].properties[3]);
+  /// see [PokemonType.type]
+  static final type =
+      QueryRelationToOne<PokemonType, Pokemon>(_entities[1].properties[2]);
 }

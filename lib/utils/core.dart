@@ -3,6 +3,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:dio/dio.dart';
 import 'package:pokedex/main.dart';
+import 'package:pokedex/model/pokemon_from_api.dart';
 import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/utils/consts.dart';
 
@@ -28,7 +29,6 @@ Future getAppDirectory() async {
 
 Future downloadPokemonData() async {
   for (var i = 1; i <= maxPokemonNumber; i++) {
-    print(i);
     if (!await containSvgPokemonData(i)) {
       await dio.download(
           'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/$i.svg',
@@ -37,18 +37,25 @@ Future downloadPokemonData() async {
 
     if (!containDbPokemonData(i)) {
       var v = await dio.get('https://pokeapi.co/api/v2/pokemon/$i/');
-      print(v);
 
-      Pokemon p = Pokemon.fromMap(v.data);
+      PokemonFromApi pokemonFromApi = PokemonFromApi.fromMap(v.data);
 
-      Pokemon pokemon = Pokemon(
-        id: p.id,
-        name: p.name,
-        height: p.height,
-        weight: p.weight,
+      Pokemon newPokemon = Pokemon(
+        id: pokemonFromApi.id,
+        name: pokemonFromApi.name,
+        height: pokemonFromApi.height,
+        weight: pokemonFromApi.weight,
         photoPath: '$pokemonSvgPath\\$i.svg',
       );
-      objectbox.insertPokemon(pokemon);
+      for (var element in pokemonFromApi.types) {
+        
+        PokemonType pokemonType = PokemonType(name: element.type.name);
+
+        newPokemon.types.add(pokemonType);
+        print(element.type.name);
+      }
+      print(newPokemon.types.first);
+      objectbox.insertPokemon(newPokemon);
     }
 
     EasyLoading.showProgress(i / maxPokemonNumber,
