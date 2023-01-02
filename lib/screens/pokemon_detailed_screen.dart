@@ -120,15 +120,83 @@ class DetailedPokemonPage extends StatelessWidget {
                           ),
                           border: Border.all(),
                         ),
-                        height: height / 2,
+                        height: height / 3,
                         child: TabBarView(children: [
                           Container(
                             padding: EdgeInsets.all(20),
-                            child: Text(
-                              pokemon.informations,
-                              style: TextStyle(
-                                  color: Colors.grey.shade700,
-                                  fontWeight: FontWeight.bold),
+                            child: Column(
+                              children: [
+                                Text(
+                                  pokemon.informations,
+                                  style: TextStyle(
+                                      color: Colors.grey.shade700,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(Icons.work),
+                                        Text(
+                                          'Weigth',
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.height),
+                                        Text(
+                                          'Height',
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      decoration: BoxDecoration(
+                                          color: Colors.lightGreen.shade400,
+                                          boxShadow: [
+                                            BoxShadow(offset: Offset(1, 2))
+                                          ],
+                                          border: Border.all(),
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: Text(
+                                        '${pokemon.weight} kilog',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      decoration: BoxDecoration(
+                                          color: Colors.lightGreen.shade400,
+                                          boxShadow: [
+                                            BoxShadow(offset: Offset(1, 2))
+                                          ],
+                                          border: Border.all(),
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: Text(
+                                        '${pokemon.height} Meters',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                           Container(),
