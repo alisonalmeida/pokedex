@@ -8,7 +8,6 @@ Content table
    * [How to execute](#-how-to-execute)
      * [Prerequisites](#prerequisites)
      * [Running the app](#-running-the-app)
-   * [Technologies](#-technologies)
 <!--te-->
 
 ## 💻 About the Project
