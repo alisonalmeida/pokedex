@@ -5,7 +5,6 @@ import 'package:pokedex/components/pokemon_square.dart';
 import 'package:pokedex/main.dart';
 import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/screens/pokemon_detailed_screen.dart';
-import 'package:pokedex/screens/test_screeen.dart';
 import 'package:pokedex/utils/colors.dart';
 import 'package:pokedex/utils/consts.dart';
 
@@ -30,7 +29,6 @@ class _HomePageState extends State<HomePage> {
     } else {
       numberPokemonInScreen = 2;
     }
-
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -73,7 +71,8 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      /**
+       * floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         child: Padding(
           padding: const EdgeInsets.all(2.0),
@@ -84,6 +83,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+       */
       bottomNavigationBar: SizedBox(
         height: 60,
         child: Column(

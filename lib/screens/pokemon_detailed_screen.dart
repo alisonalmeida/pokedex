@@ -174,7 +174,7 @@ class DetailedPokemonPage extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(20)),
                                       child: Text(
-                                        '${pokemon.weight} kilog',
+                                        '${pokemon.weight} Libs',
                                         style: TextStyle(fontSize: 15),
                                       ),
                                     ),
@@ -190,7 +190,7 @@ class DetailedPokemonPage extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(20)),
                                       child: Text(
-                                        '${pokemon.height} Meters',
+                                        '${pokemon.height} In',
                                         style: TextStyle(fontSize: 15),
                                       ),
                                     ),
