@@ -32,12 +32,13 @@ Future downloadPokemonData() async {
   for (var i = 1; i <= maxPokemonNumber; i++) {
     if (!await containSvgPokemonData(i)) {
       await dio.download(
-          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/$i.svg',
-          '$pokemonSvgPath\\$i.svg');
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/$i.svg',
+        '$pokemonSvgPath\\$i.svg'
+      );
     }
 
     if (!containDbPokemonData(i)) {
-      var pokeResponse = await dio.get('https://pokeapi.co/api/v2/pokemon/$i/');
+      var pokeResponse = await dio.get('https://pokeapi.co/api/v2/pokemon/$i/',);
 
       PokemonFromApi pokemonFromApi = PokemonFromApi.fromMap(pokeResponse.data);
 
