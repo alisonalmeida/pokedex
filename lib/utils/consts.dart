@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 const appName = 'pokedex';
 
@@ -31,21 +32,28 @@ List<String> listTypes = [
   'dark'
 ];
 
-Future<bool> showAlertDownloadMessage(BuildContext context) async {
+Future showAlertDownloadMessage(BuildContext context) async {
   bool wantDownload = false;
   await showDialog(
     context: context,
     builder: (context) => AlertDialog(
-        title: Text(
-            'É necessário fazer o download de dados da internet para o funcionamento do aplicativo! Você autoriza?'),
+        actionsAlignment: MainAxisAlignment.center,
+        content: Text(
+          'É necessário fazer o download de dados da internet para o aplicativo! Você autoriza?',
+          textAlign: TextAlign.center,
+        ),
         actions: [
           ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.green)),
               onPressed: () {
                 Navigator.pop(context);
                 wantDownload = true;
               },
               child: Text('Sim')),
           ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.red)),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -54,3 +62,5 @@ Future<bool> showAlertDownloadMessage(BuildContext context) async {
   );
   return wantDownload;
 }
+
+

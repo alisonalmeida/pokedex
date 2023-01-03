@@ -12,6 +12,89 @@ Directory? directoryApp;
 String path = '';
 String pokemonSvgPath = '';
 final Dio dio = Dio();
+double progress = 0;
+Stream _stream = Stream.periodic(
+  Duration(seconds: 1),
+  (computationCount) {
+    print(computationCount);
+  },
+);
+
+class CheckPokemonData {
+  Future downloadPokemonData() async {
+    
+    for (var i = 1; i <= maxPokemonNumber; i++) {
+      if (!await _containSvgPokemonData(i)) {
+        await dio.download(
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/$i.svg',
+            '$pokemonSvgPath\\$i.svg');
+      }
+
+      if (!_containDbPokemonData(i)) {
+        var pokeResponse = await dio.get(
+          'https://pokeapi.co/api/v2/pokemon/$i/',
+        );
+
+        PokemonFromApi pokemonFromApi =
+            PokemonFromApi.fromMap(pokeResponse.data);
+
+        var speciesResponse = await dio.get(pokemonFromApi.species.url);
+
+        Information information = Information.fromMap(speciesResponse.data);
+        String string = information.flavorTextEntries.first.flavorText
+            .replaceAll('\n', ' ');
+        string = string.replaceAll('\f', ' ');
+
+        Pokemon newPokemon = Pokemon(
+            id: pokemonFromApi.id,
+            name: pokemonFromApi.name,
+            height: pokemonFromApi.height,
+            weight: pokemonFromApi.weight,
+            photoPath: '$pokemonSvgPath\\$i.svg',
+            informations: string);
+
+        for (var element in pokemonFromApi.types) {
+          PokemonType pokemonType = PokemonType(name: element.type.name);
+
+          newPokemon.types.add(pokemonType);
+        }
+
+        objectbox.insertPokemon(newPokemon);
+      }
+
+      EasyLoading.showProgress(i / maxPokemonNumber,
+          status:
+              'Atualizando: ${(i / maxPokemonNumber * 100).roundToDouble()}%');
+    }
+    EasyLoading.dismiss();
+  }
+
+  Future<bool> _containSvgPokemonData(int index) async {
+    var v = await File('$pokemonSvgPath\\$index.svg').exists();
+    return v;
+  }
+
+  bool _containDbPokemonData(int index) {
+    return objectbox.containPokemon(index);
+  }
+
+  Future<bool> checkAppData() async {
+    bool isAppCompleted = true;
+    for (var i = 1; i <= maxPokemonNumber; i++) {
+      isAppCompleted = _containDbPokemonData(i);
+      if (!isAppCompleted) {
+        break;
+      }
+
+      isAppCompleted = await _containSvgPokemonData(i);
+
+      if (!isAppCompleted) {
+        break;
+      }
+    }
+    return isAppCompleted;
+  }
+}
 
 Future initAppConfigurations() async {
   await getAppDirectory();
@@ -26,75 +109,4 @@ Future getAppDirectory() async {
   await directoryApp!.create();
   path = directoryApp!.path;
   pokemonSvgPath = '$path\\svg';
-}
-
-Future downloadPokemonData() async {
-  for (var i = 1; i <= maxPokemonNumber; i++) {
-    if (!await containSvgPokemonData(i)) {
-      await dio.download(
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/$i.svg',
-        '$pokemonSvgPath\\$i.svg'
-      );
-    }
-
-    if (!containDbPokemonData(i)) {
-      var pokeResponse = await dio.get('https://pokeapi.co/api/v2/pokemon/$i/',);
-
-      PokemonFromApi pokemonFromApi = PokemonFromApi.fromMap(pokeResponse.data);
-
-      var speciesResponse = await dio.get(pokemonFromApi.species.url);
-
-      Information information = Information.fromMap(speciesResponse.data);
-      String string =
-          information.flavorTextEntries.first.flavorText.replaceAll('\n', ' ');
-      string = string.replaceAll('\f', ' ');
-
-      Pokemon newPokemon = Pokemon(
-          id: pokemonFromApi.id,
-          name: pokemonFromApi.name,
-          height: pokemonFromApi.height,
-          weight: pokemonFromApi.weight,
-          photoPath: '$pokemonSvgPath\\$i.svg',
-          informations: string);
-
-      for (var element in pokemonFromApi.types) {
-        PokemonType pokemonType = PokemonType(name: element.type.name);
-
-        newPokemon.types.add(pokemonType);
-      }
-
-      objectbox.insertPokemon(newPokemon);
-    }
-
-    EasyLoading.showProgress(i / maxPokemonNumber,
-        status:
-            'Atualizando: ${(i / maxPokemonNumber * 100).roundToDouble()}%');
-  }
-  EasyLoading.dismiss();
-}
-
-Future<bool> containSvgPokemonData(int index) async {
-  var v = await File('$pokemonSvgPath\\$index.svg').exists();
-  return v;
-}
-
-bool containDbPokemonData(int index) {
-  return objectbox.containPokemon(index);
-}
-
-Future<bool> checkAppData() async {
-  bool isAppCompleted = true;
-  for (var i = 1; i <= maxPokemonNumber; i++) {
-    isAppCompleted = containDbPokemonData(i);
-    if (!isAppCompleted) {
-      break;
-    }
-
-    isAppCompleted = await containSvgPokemonData(i);
-
-    if (!isAppCompleted) {
-      break;
-    }
-  }
-  return isAppCompleted;
 }

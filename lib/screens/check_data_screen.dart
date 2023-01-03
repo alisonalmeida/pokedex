@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pokedex/screens/home_page.dart';
-import 'package:pokedex/utils/colors.dart';
 import 'package:pokedex/utils/consts.dart';
 import 'package:pokedex/utils/core.dart';
 
@@ -17,17 +19,31 @@ class CheckDataPage extends StatefulWidget {
 class _CheckDataPageState extends State<CheckDataPage> {
   String message = 'Checando os Dados ...';
   bool continueDownload = false;
-  double? value;
+  CheckPokemonData checkPokemonData = CheckPokemonData();
 
   @override
   void initState() {
     isAppCompleted();
-
     super.initState();
   }
 
-  Future isAppCompleted() async {
-    if (await checkAppData()) {
+  showDownloadProgress(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) => AlertDialog(
+              content: Center(
+            child: Opacity(
+                opacity: 1, child: SvgPicture.asset(kpathPokeballLottie)),
+          )),
+        );
+      },
+    );
+  }
+
+  isAppCompleted() async {
+    if (await checkPokemonData.checkAppData()) {
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -36,7 +52,7 @@ class _CheckDataPageState extends State<CheckDataPage> {
     } else {
       continueDownload = await showAlertDownloadMessage(context);
       if (continueDownload) {
-        await downloadPokemonData();
+        await checkPokemonData.downloadPokemonData();
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -54,28 +70,21 @@ class _CheckDataPageState extends State<CheckDataPage> {
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 200,
-              width: 200,
-              child: Lottie.asset(kpathPokeballLottie),
-            ),
-            const SizedBox(height: 50),
-            Text(
-              message,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 50),
-            LinearProgressIndicator(
-              backgroundColor: Colors.red.shade200,
-              color: redColor,
-              minHeight: 10,
-              value: value,
-            ),
-          ],
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 50),
+              Container(
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle, border: Border.all(width: 3)),
+                height: 100,
+                width: 100,
+                child: Lottie.asset(kpathPokeballLottie),
+              ),
+              Text(message, style: TextStyle(fontWeight: FontWeight.bold)),
+            ],
+          ),
         ),
       ),
     );
