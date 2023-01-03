@@ -15,6 +15,7 @@ This app is being developed in Flutter/Dart using the   <a href="https://pub.dev
 The main objective is use the data from the API from the <span><a href="https://pokeapi.co/">PokeApi</span>, downloading all the initial data at the start of the app.
 ---
 ## 🎨 Layout
+The Base Layout from: <a href="https://dribbble.com/shots/19287892-Pokemon-Neobrutalism">
 ![detailed_screen1](https://user-images.githubusercontent.com/7429335/210301744-75def2c0-fc5c-4fa5-b715-9d14492df57b.png)
 ![detailed_screen2](https://user-images.githubusercontent.com/7429335/210301747-9b671b00-1e7c-4621-95bf-1f5173c38f69.png)
 ![downloading_data](https://user-images.githubusercontent.com/7429335/210301749-e433d420-ee60-4f6b-aec6-900422cb1774.png)
