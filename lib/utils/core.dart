@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:dio/dio.dart';
 import 'package:pokedex/main.dart';
 import 'package:pokedex/model/pokemon_from_api.dart';
@@ -13,16 +13,11 @@ String path = '';
 String pokemonSvgPath = '';
 final Dio dio = Dio();
 double progress = 0;
-Stream _stream = Stream.periodic(
-  Duration(seconds: 1),
-  (computationCount) {
-    print(computationCount);
-  },
-);
 
 class CheckPokemonData {
-  Future downloadPokemonData() async {
-    
+  
+
+  Stream<double?> downloadPokemonData() async* {
     for (var i = 1; i <= maxPokemonNumber; i++) {
       if (!await _containSvgPokemonData(i)) {
         await dio.download(
@@ -62,11 +57,13 @@ class CheckPokemonData {
         objectbox.insertPokemon(newPokemon);
       }
 
-      EasyLoading.showProgress(i / maxPokemonNumber,
-          status:
-              'Atualizando: ${(i / maxPokemonNumber * 100).roundToDouble()}%');
+      progress = i / maxPokemonNumber;
+
+      yield progress;
+
+     
     }
-    EasyLoading.dismiss();
+  
   }
 
   Future<bool> _containSvgPokemonData(int index) async {

@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pokedex/objectbox_helper.dart';
 import 'package:pokedex/screens/check_data_screen.dart';
 import 'package:pokedex/utils/core.dart';
@@ -29,7 +28,6 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: CheckDataPage(),
-      builder: EasyLoading.init(),
     );
   }
 }

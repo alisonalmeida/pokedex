@@ -40,7 +40,6 @@ dependencies:
   audioplayers: ^1.1.1
   dio: ^4.0.6
   flutter_svg: ^1.1.6
-  flutter_easyloading: ^3.0.5
   objectbox: ^1.7.0
   objectbox_flutter_libs: ^1.7.0
   path_provider: ^2.0.11
