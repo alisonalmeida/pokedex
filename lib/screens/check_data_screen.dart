@@ -90,7 +90,17 @@ class _CheckDataPageState extends State<CheckDataPage> {
                       );
                     }
                     if (snapshot.hasError) {
-                      return Text('Erro!',
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(actions: [
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('OK'))
+                        ], content: Text(snapshot.error.toString())),
+                      );
+                      return Text(snapshot.error.toString(),
                           style: TextStyle(fontWeight: FontWeight.bold));
                     }
                     if (snapshot.connectionState == ConnectionState.done) {

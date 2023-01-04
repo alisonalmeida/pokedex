@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:pokedex/main.dart';
@@ -15,8 +16,6 @@ final Dio dio = Dio();
 double progress = 0;
 
 class CheckPokemonData {
-  
-
   Stream<double?> downloadPokemonData() async* {
     for (var i = 1; i <= maxPokemonNumber; i++) {
       if (!await _containSvgPokemonData(i)) {
@@ -60,10 +59,7 @@ class CheckPokemonData {
       progress = i / maxPokemonNumber;
 
       yield progress;
-
-     
     }
-  
   }
 
   Future<bool> _containSvgPokemonData(int index) async {
