@@ -1,8 +1,7 @@
-import 'dart:convert';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-class Pokemon {
+class PokemonModel {
   @Id(assignable: true)
   int id;
   String name;
@@ -14,38 +13,21 @@ class Pokemon {
   @Backlink()
   final types = ToMany<PokemonType>();
 
-  Pokemon({
+  PokemonModel({
     required this.id,
     required this.name,
     this.photoPath,
     required this.height,
     required this.weight,
-    this.informations='',
+    this.informations = '',
   });
-  factory Pokemon.fromJson(String str) => Pokemon.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-  factory Pokemon.fromMap(Map<String, dynamic> json) => Pokemon(
-        height: json["height"],
-        id: json["id"],
-        name: json["name"],
-        weight: json["weight"],
-      );
-
-  Map<String, dynamic> toMap() => {
-        "height": height,
-        "id": id,
-        "name": name,
-        "weight": weight,
-        "types": types,
-      };
 }
 
 @Entity()
 class PokemonType {
   int id = 0;
   String name;
-  final type = ToOne<Pokemon>();
+  final type = ToOne<PokemonModel>();
 
   PokemonType({required this.name});
 }

@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, prefer_const_literals_to_create_immutables
 
 import 'dart:async';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pokedex/main.dart';
 import 'package:pokedex/screens/home_page.dart';
 import 'package:pokedex/utils/colors.dart';
 import 'package:pokedex/utils/consts.dart';
@@ -22,9 +23,11 @@ class _CheckDataPageState extends State<CheckDataPage> {
   bool continueDownload = false;
   bool downloadCompleted = false;
   CheckPokemonData checkPokemonData = CheckPokemonData();
+  NumberFormat formatter = NumberFormat('00.0');
 
   @override
   void initState() {
+    objectbox.clear();
     isAppCompleted();
     super.initState();
   }
@@ -58,7 +61,7 @@ class _CheckDataPageState extends State<CheckDataPage> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting ||
                         snapshot.connectionState == ConnectionState.none) {
-                      return Text('Aguardando',
+                      return Text('Aguarde',
                           style: TextStyle(fontWeight: FontWeight.bold));
                     }
                     if (snapshot.connectionState == ConnectionState.active) {
@@ -66,40 +69,31 @@ class _CheckDataPageState extends State<CheckDataPage> {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Opacity(
-                            opacity: progress,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(width: 3)),
-                              height: 100,
-                              width: 100,
-                              child: Lottie.asset(kpathPokeballLottie),
-                            ),
+                          Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(width: 3)),
+                            height: 100,
+                            width: 100,
+                            child: Lottie.asset(kpathPokeballLottie),
                           ),
                           SizedBox(height: 20),
-                          Text('${(progress * 100).roundToDouble()}%',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          LinearProgressIndicator(
-                            minHeight: 10,
-                            backgroundColor: Colors.red.shade200,
-                            color: Colors.red,
-                            value: snapshot.data,
+                          Text('${formatter.format(progress * 100)} %',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 30)),
+                          SizedBox(
+                            width: 200,
+                            child: LinearProgressIndicator(
+                              minHeight: 10,
+                              backgroundColor: Colors.red.shade200,
+                              color: Colors.red,
+                              value: snapshot.data,
+                            ),
                           )
                         ],
                       );
                     }
                     if (snapshot.hasError) {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(actions: [
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('OK'))
-                        ], content: Text(snapshot.error.toString())),
-                      );
                       return Text(snapshot.error.toString(),
                           style: TextStyle(fontWeight: FontWeight.bold));
                     }
@@ -111,7 +105,7 @@ class _CheckDataPageState extends State<CheckDataPage> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 50),
+                          SizedBox(height: 30),
                           ElevatedButton(
                               style: ButtonStyle(
                                   backgroundColor:

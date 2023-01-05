@@ -4,38 +4,38 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:46258024845670569",
-      "lastPropertyId": "6:6650851142051838988",
-      "name": "Pokemon",
+      "id": "1:5685321046494141879",
+      "lastPropertyId": "6:2166950043824786698",
+      "name": "PokemonModel",
       "properties": [
         {
-          "id": "1:8909954153426261847",
+          "id": "1:918682145612930721",
           "name": "id",
           "type": 6,
           "flags": 129
         },
         {
-          "id": "2:2763911837058123735",
+          "id": "2:4803206127298089724",
           "name": "name",
           "type": 9
         },
         {
-          "id": "3:1984724046746722718",
+          "id": "3:3135257458733323192",
           "name": "photoPath",
           "type": 9
         },
         {
-          "id": "4:1394478087474380190",
+          "id": "4:4473566844846191212",
           "name": "height",
           "type": 6
         },
         {
-          "id": "5:2549216120736719857",
+          "id": "5:5460921481502637312",
           "name": "weight",
           "type": 6
         },
         {
-          "id": "6:6650851142051838988",
+          "id": "6:2166950043824786698",
           "name": "informations",
           "type": 9
         }
@@ -43,35 +43,35 @@
       "relations": []
     },
     {
-      "id": "2:7686715002988446666",
-      "lastPropertyId": "3:5690175325009757314",
+      "id": "2:233661857342884176",
+      "lastPropertyId": "3:1793455330400559476",
       "name": "PokemonType",
       "properties": [
         {
-          "id": "1:1355665783964011954",
+          "id": "1:3782757766193214143",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:5483838984908567403",
+          "id": "2:5116698193566954543",
           "name": "name",
           "type": 9
         },
         {
-          "id": "3:5690175325009757314",
+          "id": "3:1793455330400559476",
           "name": "typeId",
           "type": 11,
           "flags": 520,
-          "indexId": "1:8480482701182613135",
-          "relationTarget": "Pokemon"
+          "indexId": "1:7551634076504768048",
+          "relationTarget": "PokemonModel"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "2:7686715002988446666",
-  "lastIndexId": "1:8480482701182613135",
+  "lastEntityId": "2:233661857342884176",
+  "lastIndexId": "1:7551634076504768048",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

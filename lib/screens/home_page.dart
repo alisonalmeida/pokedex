@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
               delegate: SliverChildBuilderDelegate(
                 childCount: objectbox.getAllPokemons().length,
                 (context, index) {
-                  Pokemon? pokemon = objectbox.getPokemon(index + 1);
+                  PokemonModel? pokemon = objectbox.getPokemon(index + 1);
                   return GestureDetector(
                     onTap: () => Navigator.push(
                         context,

@@ -14,7 +14,7 @@ import 'package:pokedex/utils/consts.dart';
 class PokemonSquare extends StatelessWidget {
   PokemonSquare({super.key, required this.pokemon});
 
-  Pokemon pokemon;
+  PokemonModel pokemon;
   NumberFormat formatter = NumberFormat('000');
 
   @override
@@ -34,7 +34,7 @@ class PokemonSquare extends StatelessWidget {
               color: Colors.grey.shade100,
               border: Border.all(width: 3),
               boxShadow: [
-                BoxShadow(offset: const Offset(5, 4), color: Colors.black)
+                BoxShadow(offset: const Offset(2, 1), color: Colors.black)
               ]),
           child: Column(
             children: [

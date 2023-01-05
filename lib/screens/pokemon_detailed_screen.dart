@@ -10,13 +10,12 @@ import 'package:pokedex/utils/colors.dart';
 import 'package:pokedex/utils/consts.dart';
 
 class DetailedPokemonPage extends StatelessWidget {
-  Pokemon pokemon;
+  PokemonModel pokemon;
 
   DetailedPokemonPage({super.key, required this.pokemon});
 
   @override
   Widget build(BuildContext context) {
-    print(pokemon.informations);
     Size size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;

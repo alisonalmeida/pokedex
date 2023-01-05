@@ -20,38 +20,38 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <ModelEntity>[
   ModelEntity(
-      id: const IdUid(1, 46258024845670569),
-      name: 'Pokemon',
-      lastPropertyId: const IdUid(6, 6650851142051838988),
+      id: const IdUid(1, 5685321046494141879),
+      name: 'PokemonModel',
+      lastPropertyId: const IdUid(6, 2166950043824786698),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 8909954153426261847),
+            id: const IdUid(1, 918682145612930721),
             name: 'id',
             type: 6,
             flags: 129),
         ModelProperty(
-            id: const IdUid(2, 2763911837058123735),
+            id: const IdUid(2, 4803206127298089724),
             name: 'name',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 1984724046746722718),
+            id: const IdUid(3, 3135257458733323192),
             name: 'photoPath',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(4, 1394478087474380190),
+            id: const IdUid(4, 4473566844846191212),
             name: 'height',
             type: 6,
             flags: 0),
         ModelProperty(
-            id: const IdUid(5, 2549216120736719857),
+            id: const IdUid(5, 5460921481502637312),
             name: 'weight',
             type: 6,
             flags: 0),
         ModelProperty(
-            id: const IdUid(6, 6650851142051838988),
+            id: const IdUid(6, 2166950043824786698),
             name: 'informations',
             type: 9,
             flags: 0)
@@ -61,28 +61,28 @@ final _entities = <ModelEntity>[
         ModelBacklink(name: 'types', srcEntity: 'PokemonType', srcField: '')
       ]),
   ModelEntity(
-      id: const IdUid(2, 7686715002988446666),
+      id: const IdUid(2, 233661857342884176),
       name: 'PokemonType',
-      lastPropertyId: const IdUid(3, 5690175325009757314),
+      lastPropertyId: const IdUid(3, 1793455330400559476),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 1355665783964011954),
+            id: const IdUid(1, 3782757766193214143),
             name: 'id',
             type: 6,
             flags: 1),
         ModelProperty(
-            id: const IdUid(2, 5483838984908567403),
+            id: const IdUid(2, 5116698193566954543),
             name: 'name',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 5690175325009757314),
+            id: const IdUid(3, 1793455330400559476),
             name: 'typeId',
             type: 11,
             flags: 520,
-            indexId: const IdUid(1, 8480482701182613135),
-            relationTarget: 'Pokemon')
+            indexId: const IdUid(1, 7551634076504768048),
+            relationTarget: 'PokemonModel')
       ],
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
@@ -108,8 +108,8 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(2, 7686715002988446666),
-      lastIndexId: const IdUid(1, 8480482701182613135),
+      lastEntityId: const IdUid(2, 233661857342884176),
+      lastIndexId: const IdUid(1, 7551634076504768048),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [],
@@ -121,19 +121,19 @@ ModelDefinition getObjectBoxModel() {
       version: 1);
 
   final bindings = <Type, EntityDefinition>{
-    Pokemon: EntityDefinition<Pokemon>(
+    PokemonModel: EntityDefinition<PokemonModel>(
         model: _entities[0],
-        toOneRelations: (Pokemon object) => [],
-        toManyRelations: (Pokemon object) => {
+        toOneRelations: (PokemonModel object) => [],
+        toManyRelations: (PokemonModel object) => {
               RelInfo<PokemonType>.toOneBacklink(
                       3, object.id, (PokemonType srcObject) => srcObject.type):
                   object.types
             },
-        getId: (Pokemon object) => object.id,
-        setId: (Pokemon object, int id) {
+        getId: (PokemonModel object) => object.id,
+        setId: (PokemonModel object, int id) {
           object.id = id;
         },
-        objectToFB: (Pokemon object, fb.Builder fbb) {
+        objectToFB: (PokemonModel object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
           final photoPathOffset = object.photoPath == null
               ? null
@@ -153,7 +153,7 @@ ModelDefinition getObjectBoxModel() {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
 
-          final object = Pokemon(
+          final object = PokemonModel(
               id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
               name: const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 6, ''),
@@ -170,7 +170,7 @@ ModelDefinition getObjectBoxModel() {
               store,
               RelInfo<PokemonType>.toOneBacklink(
                   3, object.id, (PokemonType srcObject) => srcObject.type),
-              store.box<Pokemon>());
+              store.box<PokemonModel>());
           return object;
         }),
     PokemonType: EntityDefinition<PokemonType>(
@@ -208,29 +208,31 @@ ModelDefinition getObjectBoxModel() {
   return ModelDefinition(model, bindings);
 }
 
-/// [Pokemon] entity fields to define ObjectBox queries.
-class Pokemon_ {
-  /// see [Pokemon.id]
-  static final id = QueryIntegerProperty<Pokemon>(_entities[0].properties[0]);
+/// [PokemonModel] entity fields to define ObjectBox queries.
+class PokemonModel_ {
+  /// see [PokemonModel.id]
+  static final id =
+      QueryIntegerProperty<PokemonModel>(_entities[0].properties[0]);
 
-  /// see [Pokemon.name]
-  static final name = QueryStringProperty<Pokemon>(_entities[0].properties[1]);
+  /// see [PokemonModel.name]
+  static final name =
+      QueryStringProperty<PokemonModel>(_entities[0].properties[1]);
 
-  /// see [Pokemon.photoPath]
+  /// see [PokemonModel.photoPath]
   static final photoPath =
-      QueryStringProperty<Pokemon>(_entities[0].properties[2]);
+      QueryStringProperty<PokemonModel>(_entities[0].properties[2]);
 
-  /// see [Pokemon.height]
+  /// see [PokemonModel.height]
   static final height =
-      QueryIntegerProperty<Pokemon>(_entities[0].properties[3]);
+      QueryIntegerProperty<PokemonModel>(_entities[0].properties[3]);
 
-  /// see [Pokemon.weight]
+  /// see [PokemonModel.weight]
   static final weight =
-      QueryIntegerProperty<Pokemon>(_entities[0].properties[4]);
+      QueryIntegerProperty<PokemonModel>(_entities[0].properties[4]);
 
-  /// see [Pokemon.informations]
+  /// see [PokemonModel.informations]
   static final informations =
-      QueryStringProperty<Pokemon>(_entities[0].properties[5]);
+      QueryStringProperty<PokemonModel>(_entities[0].properties[5]);
 }
 
 /// [PokemonType] entity fields to define ObjectBox queries.
@@ -245,5 +247,5 @@ class PokemonType_ {
 
   /// see [PokemonType.type]
   static final type =
-      QueryRelationToOne<PokemonType, Pokemon>(_entities[1].properties[2]);
+      QueryRelationToOne<PokemonType, PokemonModel>(_entities[1].properties[2]);
 }

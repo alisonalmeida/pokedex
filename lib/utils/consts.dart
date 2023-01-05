@@ -1,11 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 const appName = 'pokedex';
 
-const int maxPokemonNumber = 251;
+const int maxPokemonNumber = 13;
 
 const kpathPokemonLogo = 'lib/assets/img/pokemon-logo.png';
 const kpathPokeballLottie = 'lib/assets/animations/pokeball-animation.json';

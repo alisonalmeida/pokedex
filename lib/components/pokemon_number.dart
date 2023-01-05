@@ -10,7 +10,7 @@ class PokemonNumber extends StatelessWidget {
   }) : super(key: key);
 
   final NumberFormat formatter;
-  final Pokemon pokemon;
+  final PokemonModel pokemon;
 
   @override
   Widget build(BuildContext context) {
