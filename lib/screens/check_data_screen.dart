@@ -27,7 +27,6 @@ class _CheckDataPageState extends State<CheckDataPage> {
 
   @override
   void initState() {
-    objectbox.clear();
     isAppCompleted();
     super.initState();
   }
