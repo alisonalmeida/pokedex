@@ -1,14 +1,11 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:pokeapi/model/pokemon/pokemon-specie.dart';
 import 'package:pokeapi/model/pokemon/pokemon.dart';
-import 'package:pokeapi/model/utils/common.dart';
 import 'package:pokedex/main.dart';
-import 'package:pokedex/model/pokemon_from_api.dart';
-import 'package:pokedex/model/pokemon_information.dart';
 import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/utils/consts.dart';
 import 'package:pokeapi/pokeapi.dart';
@@ -18,16 +15,22 @@ String path = '';
 String pokemonSvgPath = '';
 final Dio dio = Dio();
 double progress = 0;
+NumberFormat formatter = NumberFormat('000');
+String imagePokemon = 'https://assets.pokemon.com/assets/cms2/img/pokedex/full';
 
 class CheckPokemonData {
+  int minRange = 0;
+  int maxRange = 0;
+  CheckPokemonData({required this.maxRange, required this.minRange});
+
   Stream<double?> downloadPokemonData() async* {
     for (var i = 1; i <= maxPokemonNumber; i++) {
       if (!await _containSvgPokemonData(i)) {
         await dio.download(
             deleteOnError: false,
             options: Options(receiveTimeout: 0),
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/$i.svg',
-            '$pokemonSvgPath\\$i.svg');
+            '$imagePokemon/${formatter.format(i)}.png',
+            '$pokemonSvgPath\\$i.png');
       }
 
       if (!_containDbPokemonData(i)) {
@@ -45,7 +48,7 @@ class CheckPokemonData {
             name: apiPokemon.name!,
             height: apiPokemon.height!,
             weight: apiPokemon.weight!,
-            photoPath: '$pokemonSvgPath\\$i.svg',
+            photoPath: '$pokemonSvgPath\\$i.png',
             informations: information);
 
         for (var element in apiPokemon.types!) {
@@ -62,7 +65,7 @@ class CheckPokemonData {
   }
 
   Future<bool> _containSvgPokemonData(int index) async {
-    var v = await File('$pokemonSvgPath\\$index.svg').exists();
+    var v = await File('$pokemonSvgPath\\$index.png').exists();
     return v;
   }
 
@@ -100,5 +103,5 @@ Future getAppDirectory() async {
 
   await directoryApp!.create();
   path = directoryApp!.path;
-  pokemonSvgPath = '$path\\svg';
+  pokemonSvgPath = '$path\\png';
 }

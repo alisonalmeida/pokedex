@@ -1,13 +1,9 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, prefer_const_literals_to_create_immutables
 
-import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pokedex/main.dart';
 import 'package:pokedex/screens/home_page.dart';
-import 'package:pokedex/utils/colors.dart';
 import 'package:pokedex/utils/consts.dart';
 import 'package:pokedex/utils/core.dart';
 
@@ -22,7 +18,8 @@ class _CheckDataPageState extends State<CheckDataPage> {
   String message = 'Checando os Dados ...';
   bool continueDownload = false;
   bool downloadCompleted = false;
-  CheckPokemonData checkPokemonData = CheckPokemonData();
+  CheckPokemonData checkPokemonData =
+      CheckPokemonData(maxRange: 0, minRange: 0);
   NumberFormat formatter = NumberFormat('00.0');
 
   @override

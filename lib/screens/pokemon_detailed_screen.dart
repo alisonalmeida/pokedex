@@ -3,7 +3,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pokedex/components/pokemon_type.dart';
 import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/utils/colors.dart';
@@ -64,7 +63,7 @@ class DetailedPokemonPage extends StatelessWidget {
                       child: FractionallySizedBox(
                         heightFactor: 0.8,
                         widthFactor: 0.8,
-                        child: SvgPicture.file(
+                        child: Image.file(
                           File(pokemon.photoPath!),
                         ),
                       ),

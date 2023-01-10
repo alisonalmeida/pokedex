@@ -71,8 +71,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      /**
-       * floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         child: Padding(
           padding: const EdgeInsets.all(2.0),
@@ -83,7 +82,6 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-       */
       bottomNavigationBar: SizedBox(
         height: 60,
         child: Column(

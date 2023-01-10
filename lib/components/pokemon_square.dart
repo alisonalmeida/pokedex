@@ -1,9 +1,8 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:pokedex/components/pokemon_number.dart';
 import 'package:pokedex/components/red_ball.dart';
@@ -65,7 +64,7 @@ class PokemonSquare extends StatelessWidget {
                         child: FractionallySizedBox(
                           heightFactor: 0.8,
                           widthFactor: 0.8,
-                          child: SvgPicture.file(
+                          child: Image.file(
                             File(pokemon.photoPath!),
                           ),
                         ),
