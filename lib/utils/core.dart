@@ -18,10 +18,17 @@ double progress = 0;
 NumberFormat formatter = NumberFormat('000');
 String imagePokemon = 'https://assets.pokemon.com/assets/cms2/img/pokedex/full';
 
-class CheckPokemonData {
-  int minRange = 0;
-  int maxRange = 0;
-  CheckPokemonData({required this.maxRange, required this.minRange});
+class PokemonData {
+  int _minRange = 1;
+  int _maxRange = 10;
+
+  get min {
+    return _minRange;
+  }
+
+  get max {
+    return _maxRange;
+  }
 
   Stream<double?> downloadPokemonData() async* {
     for (var i = 1; i <= maxPokemonNumber; i++) {
@@ -73,9 +80,9 @@ class CheckPokemonData {
     return objectbox.containPokemon(index);
   }
 
-  Future<bool> checkAppData() async {
+  Future<bool> checkAppData(int min, int max) async {
     bool isAppCompleted = true;
-    for (var i = 1; i <= maxPokemonNumber; i++) {
+    for (var i = min; i <= max; i++) {
       isAppCompleted = _containDbPokemonData(i);
       if (!isAppCompleted) {
         break;
@@ -87,6 +94,7 @@ class CheckPokemonData {
         break;
       }
     }
+
     return isAppCompleted;
   }
 }

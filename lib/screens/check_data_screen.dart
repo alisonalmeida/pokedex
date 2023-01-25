@@ -18,8 +18,7 @@ class _CheckDataPageState extends State<CheckDataPage> {
   String message = 'Checando os Dados ...';
   bool continueDownload = false;
   bool downloadCompleted = false;
-  CheckPokemonData checkPokemonData =
-      CheckPokemonData(maxRange: 0, minRange: 0);
+  PokemonData pokemonData = PokemonData();
   NumberFormat formatter = NumberFormat('00.0');
 
   @override
@@ -29,7 +28,7 @@ class _CheckDataPageState extends State<CheckDataPage> {
   }
 
   isAppCompleted() async {
-    if (await checkPokemonData.checkAppData()) {
+    if (await pokemonData.checkAppData(1, 10)) {
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -53,7 +52,7 @@ class _CheckDataPageState extends State<CheckDataPage> {
         child: Center(
           child: continueDownload
               ? StreamBuilder(
-                  stream: checkPokemonData.downloadPokemonData(),
+                  stream: pokemonData.downloadPokemonData(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting ||
                         snapshot.connectionState == ConnectionState.none) {
