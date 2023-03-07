@@ -45,6 +45,7 @@ dependencies:
   path_provider: ^2.0.11
   intl: ^0.18.0
   pokeapi: ^1.0.3
+  flutter_shimmer: ^2.1.2
   
 
 dev_dependencies:
@@ -71,6 +72,8 @@ flutter:
   - lib/assets/animations/
   - lib/assets/audio/
   - lib/assets/pokemon_types/
+  - lib/assets/pokemon_gif/
+  - lib/assets/
   
 
   # To add assets to your application, add an assets section, like this:

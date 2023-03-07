@@ -59,12 +59,12 @@ class DetailedPokemonPage extends StatelessWidget {
                       ),
                     ),
                     child: Hero(
-                      tag: pokemon.photoPath!,
+                      tag: 'pokemon.photoPath!',
                       child: FractionallySizedBox(
                         heightFactor: 0.8,
                         widthFactor: 0.8,
                         child: Image.file(
-                          File(pokemon.photoPath!),
+                          File('pokemon.photoPath!'),
                         ),
                       ),
                     ),
@@ -125,7 +125,7 @@ class DetailedPokemonPage extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text(
-                                  pokemon.informations,
+                                 ' pokemon.informations',
                                   style: TextStyle(
                                       color: Colors.grey.shade700,
                                       fontWeight: FontWeight.bold),
@@ -172,7 +172,7 @@ class DetailedPokemonPage extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(20)),
                                       child: Text(
-                                        '${pokemon.weight} Libs',
+                                        '{pokemon.weight} Libs',
                                         style: TextStyle(fontSize: 15),
                                       ),
                                     ),
@@ -188,7 +188,7 @@ class DetailedPokemonPage extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(20)),
                                       child: Text(
-                                        '${pokemon.height} In',
+                                        '{pokemon.height} In',
                                         style: TextStyle(fontSize: 15),
                                       ),
                                     ),

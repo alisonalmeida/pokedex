@@ -1,14 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'package:flutter/material.dart';
+import 'package:pokeapi/model/pokemon/pokemon.dart';
 import 'package:pokedex/components/pokemon_square.dart';
-import 'package:pokedex/main.dart';
 import 'package:pokedex/model/pokemon_model.dart';
-import 'package:pokedex/screens/check_data_screen.dart';
-import 'package:pokedex/screens/pokemon_detailed_screen.dart';
 import 'package:pokedex/utils/colors.dart';
-import 'package:pokedex/utils/consts.dart';
 import 'package:pokedex/utils/core.dart';
+import 'package:pokedex/components/pokemon_tile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,8 +19,10 @@ class _HomePageState extends State<HomePage> {
   int minRange = 1;
   int maxRange = 10;
   PokemonData pokemonData = PokemonData();
-  Future<bool> checkData() async {
-    return pokemonData.checkAppData(minRange, maxRange);
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -40,62 +40,14 @@ class _HomePageState extends State<HomePage> {
     }
     return Scaffold(
       body: SafeArea(
-          child: FutureBuilder(
-        future: checkData(),
-        builder: (context, snapshot) {
-          print(snapshot);
-          if (snapshot.hasData) {
-            snapshot.data!
-                ? StreamBuilder(
-                    stream: pokemonData.downloadPokemonData(),
-                    builder: (context, snapshot) {
-                      return CustomScrollView(
-                        slivers: [
-                          SliverAppBar(
-                            leading: Container(),
-                            snap: false,
-                            pinned: false,
-                            floating: false,
-                            expandedHeight: height / 6,
-                            toolbarHeight: height / 5,
-                            backgroundColor: Colors.grey.shade100,
-                            flexibleSpace: FlexibleSpaceBar(
-                              centerTitle: true,
-                              title: Image.asset(kpathPokemonLogo,
-                                  fit: BoxFit.scaleDown),
-                            ),
-                          ),
-                          SliverGrid(
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: numberPokemonInScreen.toInt(),
-                            ),
-                            delegate: SliverChildBuilderDelegate(
-                              childCount: objectbox.getAllPokemons().length,
-                              (context, index) {
-                                PokemonModel? pokemon =
-                                    objectbox.getPokemon(index + 1);
-                                return GestureDetector(
-                                  onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            DetailedPokemonPage(
-                                                pokemon: pokemon),
-                                      )),
-                                  child: PokemonSquare(
-                                    pokemon: pokemon!,
-                                  ),
-                                );
-                              },
-                            ),
-                          )
-                        ],
-                      );
-                    })
-                : Container();
-          }
-          return Container();
+          child: ListView.builder(
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          PokemonModel pokemon = PokemonModel(
+              id: 1,
+              name: 'name',
+);
+          return PokemonTile(formatter: formatter, pokemon: pokemon);
         },
       )),
       floatingActionButton: FloatingActionButton(

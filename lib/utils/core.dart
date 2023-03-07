@@ -1,17 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
-import 'package:pokeapi/model/pokemon/pokemon-specie.dart';
-import 'package:pokeapi/model/pokemon/pokemon.dart';
 import 'package:pokedex/main.dart';
+import 'package:pokedex/model/pokemon_from_api.dart';
 import 'package:pokedex/model/pokemon_model.dart';
+import 'package:pokedex/objectbox_helper.dart';
 import 'package:pokedex/utils/consts.dart';
-import 'package:pokeapi/pokeapi.dart';
 
 Directory? directoryApp;
-String path = '';
 String pokemonSvgPath = '';
 final Dio dio = Dio();
 double progress = 0;
@@ -19,58 +18,6 @@ NumberFormat formatter = NumberFormat('000');
 String imagePokemon = 'https://assets.pokemon.com/assets/cms2/img/pokedex/full';
 
 class PokemonData {
-  int _minRange = 1;
-  int _maxRange = 10;
-
-  get min {
-    return _minRange;
-  }
-
-  get max {
-    return _maxRange;
-  }
-
-  Stream<double?> downloadPokemonData() async* {
-    for (var i = 1; i <= maxPokemonNumber; i++) {
-      if (!await _containSvgPokemonData(i)) {
-        await dio.download(
-            deleteOnError: false,
-            options: Options(receiveTimeout: 0),
-            '$imagePokemon/${formatter.format(i)}.png',
-            '$pokemonSvgPath\\$i.png');
-      }
-
-      if (!_containDbPokemonData(i)) {
-        var apiPokemon = await PokeAPI.getObject<Pokemon>(i);
-
-        var apiSpecies = await PokeAPI.getObject<PokemonSpecie>(i);
-
-        var pokemonInformation = apiSpecies!.flavorTextEntries!
-            .firstWhere((element) => element.language!.name == 'en');
-        var information = pokemonInformation.flavorText!.replaceAll('\n', ' ');
-        information = information.replaceAll('\f', ' ');
-
-        PokemonModel newPokemon = PokemonModel(
-            id: apiPokemon!.id!,
-            name: apiPokemon.name!,
-            height: apiPokemon.height!,
-            weight: apiPokemon.weight!,
-            photoPath: '$pokemonSvgPath\\$i.png',
-            informations: information);
-
-        for (var element in apiPokemon.types!) {
-          PokemonType pokemonType = PokemonType(name: element.type!.name!);
-          newPokemon.types.add(pokemonType);
-        }
-        objectbox.insertPokemon(newPokemon);
-      }
-
-      progress = i / maxPokemonNumber;
-
-      yield progress;
-    }
-  }
-
   Future<bool> _containSvgPokemonData(int index) async {
     var v = await File('$pokemonSvgPath\\$index.png').exists();
     return v;
@@ -100,16 +47,34 @@ class PokemonData {
 }
 
 Future initAppConfigurations() async {
-  await getAppDirectory();
+  await setAppDirectory();
+  await setPokemonDatabase();
 }
 
-Future getAppDirectory() async {
+Future setPokemonDatabase() async {
+  objectbox = await Objectbox.init();
+  if (objectbox.isEmpty()) {
+    final stringData = await File('lib/assets/pokemons.json').readAsString();
+
+    var json = jsonDecode(stringData);
+    for (var i = 1; i < maxPokemonNumber; i++) {
+      var pokemon = PokemonFromApi.fromMap(json[i]);
+      PokemonModel model = PokemonModel(
+          id: pokemon.id, name: pokemon.name);
+      objectbox.insertPokemon(model);
+    }
+  }
+}
+
+Future setAppDirectory() async {
   Directory? tempDir = Platform.isAndroid
       ? await getExternalStorageDirectory()
       : await getApplicationDocumentsDirectory();
   directoryApp = Directory('${tempDir!.path}\\$appName');
 
   await directoryApp!.create();
-  path = directoryApp!.path;
-  pokemonSvgPath = '$path\\png';
+  var svgDirectory = Directory('${directoryApp!.path}\\svg');
+  await svgDirectory.create();
+
+  pokemonSvgPath = svgDirectory.path;
 }

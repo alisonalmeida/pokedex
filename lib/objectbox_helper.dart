@@ -16,6 +16,8 @@ class Objectbox {
     return Objectbox._init(store);
   }
 
+  bool isEmpty() => _pokemonBox.isEmpty();
+
   PokemonModel? getPokemon(int id) => _pokemonBox.get(id);
   int insertPokemon(PokemonModel pokemon) => _pokemonBox.put(pokemon);
   bool deletePokemon(int id) => _pokemonBox.remove(id);

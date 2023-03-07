@@ -49,78 +49,7 @@ class _CheckDataPageState extends State<CheckDataPage> {
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: continueDownload
-              ? StreamBuilder(
-                  stream: pokemonData.downloadPokemonData(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting ||
-                        snapshot.connectionState == ConnectionState.none) {
-                      return Text('Aguarde',
-                          style: TextStyle(fontWeight: FontWeight.bold));
-                    }
-                    if (snapshot.connectionState == ConnectionState.active) {
-                      double progress = snapshot.data!;
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(width: 3)),
-                            height: 100,
-                            width: 100,
-                            child: Lottie.asset(kpathPokeballLottie),
-                          ),
-                          SizedBox(height: 20),
-                          Text('${formatter.format(progress * 100)} %',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 30)),
-                          SizedBox(
-                            width: 200,
-                            child: LinearProgressIndicator(
-                              minHeight: 10,
-                              backgroundColor: Colors.red.shade200,
-                              color: Colors.red,
-                              value: snapshot.data,
-                            ),
-                          )
-                        ],
-                      );
-                    }
-                    if (snapshot.hasError) {
-                      return Text(snapshot.error.toString(),
-                          style: TextStyle(fontWeight: FontWeight.bold));
-                    }
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Download completo!',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 30),
-                          ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStatePropertyAll(Colors.red)),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HomePage(),
-                                    ));
-                              },
-                              child: Text('OK'))
-                        ],
-                      );
-                    }
-                    return Container();
-                  },
-                )
-              : Column(),
-        ),
+        child: Center(),
       ),
     );
   }
