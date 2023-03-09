@@ -3,7 +3,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:pokedex/components/pokemon_number.dart';
 import 'package:pokedex/components/red_ball.dart';
 import 'package:pokedex/model/pokemon_model.dart';
@@ -14,7 +13,6 @@ class PokemonSquare extends StatelessWidget {
   PokemonSquare({super.key, required this.pokemon});
 
   PokemonModel pokemon;
-  NumberFormat formatter = NumberFormat('000');
 
   @override
   Widget build(BuildContext context) {
@@ -60,12 +58,12 @@ class PokemonSquare extends StatelessWidget {
                         ),
                       ),
                       child: Hero(
-                        tag: pokemon.photoPath!,
+                        tag: 'pokemon.photoPath!',
                         child: FractionallySizedBox(
                           heightFactor: 0.8,
                           widthFactor: 0.8,
                           child: Image.file(
-                            File(pokemon.photoPath!),
+                            File('pokemon.photoPath!'),
                           ),
                         ),
                       ),
@@ -84,7 +82,7 @@ class PokemonSquare extends StatelessWidget {
             ],
           ),
         ),
-        PokemonNumber(formatter: formatter, pokemon: pokemon),
+        PokemonNumber( pokemon: pokemon),
       ],
     );
   }

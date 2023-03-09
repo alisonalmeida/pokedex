@@ -18,26 +18,6 @@
           "id": "2:4803206127298089724",
           "name": "name",
           "type": 9
-        },
-        {
-          "id": "3:3135257458733323192",
-          "name": "photoPath",
-          "type": 9
-        },
-        {
-          "id": "4:4473566844846191212",
-          "name": "height",
-          "type": 6
-        },
-        {
-          "id": "5:5460921481502637312",
-          "name": "weight",
-          "type": 6
-        },
-        {
-          "id": "6:2166950043824786698",
-          "name": "informations",
-          "type": 9
         }
       ],
       "relations": []
@@ -78,7 +58,12 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    3135257458733323192,
+    4473566844846191212,
+    5460921481502637312,
+    2166950043824786698
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

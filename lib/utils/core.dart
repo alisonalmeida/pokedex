@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:pokedex/main.dart';
-import 'package:pokedex/model/pokemon_from_api.dart';
 import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/objectbox_helper.dart';
 import 'package:pokedex/utils/consts.dart';
@@ -19,7 +18,7 @@ String imagePokemon = 'https://assets.pokemon.com/assets/cms2/img/pokedex/full';
 
 class PokemonData {
   Future<bool> _containSvgPokemonData(int index) async {
-    var v = await File('$pokemonSvgPath\\$index.png').exists();
+    var v = await File('$pokemonSvgPath\\$index.svg').exists();
     return v;
   }
 
@@ -57,11 +56,10 @@ Future setPokemonDatabase() async {
     final stringData = await File('lib/assets/pokemons.json').readAsString();
 
     var json = jsonDecode(stringData);
-    for (var i = 1; i < maxPokemonNumber; i++) {
-      var pokemon = PokemonFromApi.fromMap(json[i]);
-      PokemonModel model = PokemonModel(
-          id: pokemon.id, name: pokemon.name);
-      objectbox.insertPokemon(model);
+    for (var i = 0; i < maxPokemonNumber; i++) {
+      PokemonModel pokemon =
+          PokemonModel(id: json[i]['id'], name: json[i]['name']);
+      objectbox.insertPokemon(pokemon);
     }
   }
 }

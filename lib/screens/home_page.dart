@@ -3,10 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:pokeapi/model/pokemon/pokemon.dart';
 import 'package:pokedex/components/pokemon_square.dart';
+import 'package:pokedex/main.dart';
 import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/utils/colors.dart';
 import 'package:pokedex/utils/core.dart';
-import 'package:pokedex/components/pokemon_tile.dart';
+import 'package:pokedex/components/pokemon_grid_tile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,38 +17,39 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int minRange = 1;
-  int maxRange = 10;
-  PokemonData pokemonData = PokemonData();
+  List<PokemonModel> listPokemon = [];
 
   @override
   void initState() {
+    listPokemon = objectbox.getAllPokemons();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double height = size.height;
-    double width = size.width;
-    double numberPokemonInScreen = 1;
-    if (width > 1000) {
-      numberPokemonInScreen = 5;
-    } else if (width <= 1000 && width > 600) {
-      numberPokemonInScreen = 2;
-    } else {
-      numberPokemonInScreen = 1;
-    }
     return Scaffold(
+      appBar: AppBar(
+        title: Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: 'Search',
+              prefixIcon: Icon(Icons.search),
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+      ),
       body: SafeArea(
-          child: ListView.builder(
-        itemCount: 3,
+          child: GridView.builder(
+        gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        itemCount: listPokemon.length,
         itemBuilder: (context, index) {
-          PokemonModel pokemon = PokemonModel(
-              id: 1,
-              name: 'name',
-);
-          return PokemonTile(formatter: formatter, pokemon: pokemon);
+          return PokemonTile( pokemon: listPokemon[index]);
         },
       )),
       floatingActionButton: FloatingActionButton(
@@ -57,7 +59,11 @@ class _HomePageState extends State<HomePage> {
           child: Image.asset('lib/assets/img/pokebola.png'),
         ),
         onPressed: () {
-          //objectbox.clear();
+          for (var element in objectbox.getAllPokemons()) {
+            print(element.name);
+          }
+
+          objectbox.clear();
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -77,23 +83,11 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        minRange -= 10;
-                        maxRange -= 10;
-                        setState(() {});
-                      },
+                      onPressed: () {},
                       child: Icon(Icons.arrow_back),
                     ),
-                    Text(
-                      '$minRange/$maxRange',
-                      style: TextStyle(color: Colors.white),
-                    ),
                     ElevatedButton(
-                      onPressed: () {
-                        minRange += 10;
-                        maxRange += 10;
-                        setState(() {});
-                      },
+                      onPressed: () {},
                       child: Icon(Icons.arrow_forward),
                     )
                   ],

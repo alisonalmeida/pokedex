@@ -34,26 +34,6 @@ final _entities = <ModelEntity>[
             id: const IdUid(2, 4803206127298089724),
             name: 'name',
             type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(3, 3135257458733323192),
-            name: 'photoPath',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(4, 4473566844846191212),
-            name: 'height',
-            type: 6,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(5, 5460921481502637312),
-            name: 'weight',
-            type: 6,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(6, 2166950043824786698),
-            name: 'informations',
-            type: 9,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -114,7 +94,12 @@ ModelDefinition getObjectBoxModel() {
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [
+        3135257458733323192,
+        4473566844846191212,
+        5460921481502637312,
+        2166950043824786698
+      ],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -135,17 +120,9 @@ ModelDefinition getObjectBoxModel() {
         },
         objectToFB: (PokemonModel object, fb.Builder fbb) {
           final nameOffset = fbb.writeString(object.name);
-          final photoPathOffset = object.photoPath == null
-              ? null
-              : fbb.writeString(object.photoPath!);
-          final informationsOffset = fbb.writeString(object.informations);
           fbb.startTable(7);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
-          fbb.addOffset(2, photoPathOffset);
-          fbb.addInt64(3, object.height);
-          fbb.addInt64(4, object.weight);
-          fbb.addOffset(5, informationsOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -156,15 +133,7 @@ ModelDefinition getObjectBoxModel() {
           final object = PokemonModel(
               id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
               name: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 6, ''),
-              photoPath: const fb.StringReader(asciiOptimization: true)
-                  .vTableGetNullable(buffer, rootOffset, 8),
-              height:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0),
-              weight:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0),
-              informations: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 14, ''));
+                  .vTableGet(buffer, rootOffset, 6, ''));
           InternalToManyAccess.setRelInfo(
               object.types,
               store,
@@ -217,22 +186,6 @@ class PokemonModel_ {
   /// see [PokemonModel.name]
   static final name =
       QueryStringProperty<PokemonModel>(_entities[0].properties[1]);
-
-  /// see [PokemonModel.photoPath]
-  static final photoPath =
-      QueryStringProperty<PokemonModel>(_entities[0].properties[2]);
-
-  /// see [PokemonModel.height]
-  static final height =
-      QueryIntegerProperty<PokemonModel>(_entities[0].properties[3]);
-
-  /// see [PokemonModel.weight]
-  static final weight =
-      QueryIntegerProperty<PokemonModel>(_entities[0].properties[4]);
-
-  /// see [PokemonModel.informations]
-  static final informations =
-      QueryStringProperty<PokemonModel>(_entities[0].properties[5]);
 }
 
 /// [PokemonType] entity fields to define ObjectBox queries.
