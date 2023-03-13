@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
           child: GridView.builder(
         gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
         itemCount: listPokemon.length,
         itemBuilder: (context, index) {
           return PokemonTile( pokemon: listPokemon[index]);

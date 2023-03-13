@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 const appName = 'pokedex';
 
-const int maxPokemonNumber = 10;
+const int maxPokemonNumber = 251;
 //limit oficial 905
 
 const kpathPokemonLogo = 'lib/assets/img/pokemon-logo.png';
