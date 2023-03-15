@@ -11,8 +11,16 @@ class Objectbox {
 
   static Future<Objectbox> init() async {
     String path = '${directoryApp!.path}\\db\\';
+    Store store;
 
-    final store = await openStore(directory: path);
+    try {
+      store = await openStore(directory: path);
+    } catch (e) {
+      directoryApp!.deleteSync();
+      await directoryApp!.create();
+      store = await openStore(directory: path);
+    }
+
     return Objectbox._init(store);
   }
 

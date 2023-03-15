@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:pokedex/components/pokemon_number.dart';
 import 'package:pokedex/model/pokemon_model.dart';
