@@ -73,7 +73,15 @@ flutter:
   - lib/assets/audio/
   - lib/assets/pokemon_types/
   - lib/assets/pokemon_gif/
+  - lib/assets/fonts/
   - lib/assets/
+
+  fonts:
+    - family: PokemonSolid
+      fonts:
+        - asset: lib/assets/fonts/PokemonSolid.ttf
+  
+  
   
 
   # To add assets to your application, add an assets section, like this:

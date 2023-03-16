@@ -49,42 +49,40 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          title: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.search,
-                  color: Colors.grey[500],
-                ),
-                SizedBox(width: 10.0),
-                Expanded(
-                  child: TextField(
-                    controller: _searchController,
-                    onChanged: _searchPokemon,
-                    decoration: InputDecoration(
-                      hintText: 'Search for Pokemon',
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [Lottie.asset(kpathPokeballLottie)]),
-      body: SafeArea(
-          child: GridView.builder(
-        gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        itemCount: _filteredList.length,
-        itemBuilder: (context, index) {
-          return PokemonTile(pokemon: _filteredList[index]);
+        elevation: 0.0,
+        title: Text(
+          'Pokedex',
+          style: TextStyle(
+              fontFamily: 'PokemonSolid',
+              fontSize: 30.0,
+              color: Colors.white,
+              decorationColor: Colors.black),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.redAccent,
+      ),
+      body: SafeArea(child: LayoutBuilder(
+        builder: (context, boxConstraints) {
+          final int crossAxisCount;
+          if (boxConstraints.maxWidth <= 360) {
+            crossAxisCount = 2;
+          } else if (boxConstraints.maxWidth > 360 &&
+              boxConstraints.maxWidth <= 768) {
+            crossAxisCount = 3;
+          } else if (boxConstraints.maxWidth > 768 &&
+              boxConstraints.maxWidth < 1280) {
+            crossAxisCount = 4;
+          } else {
+            crossAxisCount = 7;
+          }
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount),
+            itemCount: _filteredList.length,
+            itemBuilder: (context, index) {
+              return PokemonTile(pokemon: _filteredList[index]);
+            },
+          );
         },
       )),
       floatingActionButton: FloatingActionButton(
