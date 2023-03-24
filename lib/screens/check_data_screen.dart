@@ -32,7 +32,7 @@ class _CheckDataPageState extends State<CheckDataPage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomePage(),
+            builder: (context) =>  HomePage(),
           ));
     } else {
       continueDownload = await showAlertDownloadMessage(context);

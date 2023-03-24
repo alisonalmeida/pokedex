@@ -12,27 +12,39 @@ import 'package:pokedex/components/pokemon_grid_tile.dart';
 import 'package:lottie/lottie.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  bool isSearching = false;
   List<PokemonModel> _originalList = [];
   List<PokemonModel> _filteredList = [];
 
-  TextEditingController? _searchController;
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  late final AnimationController _animationController;
+
   @override
   void initState() {
     _originalList = objectbox.getAllPokemons();
     _filteredList = _originalList;
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    );
+
     super.initState();
   }
 
   @override
   void dispose() {
-    _searchController!.dispose();
+    _searchController.dispose();
+    _focusNode.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -50,14 +62,75 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        title: Text(
-          'Pokedex',
-          style: TextStyle(
-              fontFamily: 'PokemonSolid',
-              fontSize: 30.0,
-              color: Colors.white,
-              decorationColor: Colors.black),
+        title: AnimatedBuilder(
+          animation: _animationController,
+          builder: (context, child) {
+            return isSearching
+                ? Opacity(
+                    opacity: _animationController.value,
+                    child: TextField(
+                      focusNode: _focusNode,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.yellow,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      controller: _searchController,
+                      onChanged: (value) => _searchPokemon(value),
+                    ),
+                  )
+                : Opacity(
+                    opacity: _animationController.value == 0
+                        ? 1
+                        : _animationController.value,
+                    child: Text(
+                      'Pokedex',
+                      style: TextStyle(
+                          fontFamily: 'PokemonSolid',
+                          fontSize: 30.0,
+                          color: Colors.white,
+                          decorationColor: Colors.black),
+                    ),
+                  );
+          },
         ),
+        actions: [
+          AnimatedBuilder(
+            animation: _animationController,
+            builder: (context, child) {
+              return IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isSearching = !isSearching;
+                    });
+                    if (!isSearching) {
+                      _animationController.reverse();
+                      _searchPokemon('');
+                      _searchController.clear();
+                      _focusNode.unfocus();
+                    } else {
+                      _animationController.forward();
+                      _focusNode.requestFocus();
+                    }
+                  },
+                  icon: Opacity(
+                      opacity: _animationController.value == 0
+                          ? 1
+                          : _animationController.value,
+                      child: Icon(_animationController.value == 1
+                          ? Icons.search
+                          : Icons.close)));
+            },
+          ),
+        ],
         centerTitle: true,
         backgroundColor: Colors.redAccent,
       ),
@@ -76,6 +149,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisCount = 7;
           }
           return GridView.builder(
+            padding: EdgeInsets.only(top: 10, right: 5, left: 5),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount),
             itemCount: _filteredList.length,
@@ -92,10 +166,6 @@ class _HomePageState extends State<HomePage> {
           child: Image.asset('lib/assets/img/pokebola.png'),
         ),
         onPressed: () {
-          for (var element in objectbox.getAllPokemons()) {
-            print(element.name);
-          }
-
           objectbox.clear();
         },
       ),
