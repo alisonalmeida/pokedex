@@ -608,14 +608,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.6.2"
-  pokeapi:
-    dependency: "direct main"
-    description:
-      name: pokeapi
-      sha256: "183734fd6f72530270d4f7521da71983342ca81107e233452093acff1576fa4e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.3"
   pool:
     dependency: transitive
     description:

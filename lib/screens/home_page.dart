@@ -126,8 +126,8 @@ class _HomePageState extends State<HomePage>
                           ? 1
                           : _animationController.value,
                       child: Icon(_animationController.value == 1
-                          ? Icons.search
-                          : Icons.close)));
+                          ? Icons.close
+                          : Icons.search)));
             },
           ),
         ],

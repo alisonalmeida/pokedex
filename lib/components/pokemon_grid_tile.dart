@@ -13,22 +13,28 @@ class PokemonTile extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Image.asset('lib/assets/pokemon_gif/${pokemon.id}front.gif'),
         Container(
+          padding: EdgeInsets.all(20),
           margin: EdgeInsets.all(5),
           decoration: BoxDecoration(
+              border: Border.all(),
               borderRadius: BorderRadius.all(Radius.circular(25))),
+          child: Opacity(
+            opacity: 0.05,
+            child: Image.asset('lib/assets/img/pokebola.png'),
+          ),
         ),
+        Image.asset('lib/assets/pokemon_gif/${pokemon.id}front.gif'),
         Positioned(top: 1, left: 1, child: PokemonNumber(pokemon: pokemon)),
         Positioned(
           bottom: 10,
-          left: 10,
           child: Text(
             pokemon.name[0].toUpperCase() +
                 pokemon.name.substring(1, pokemon.name.length),
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
       ],
